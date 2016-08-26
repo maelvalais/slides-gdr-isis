@@ -1,0 +1,106 @@
+%!TEX root = main.tex
+%\ProvidesPackage{config}
+
+\RequirePackage{silence}
+\WarningFilter{biblatex}{Patching footnotes failed}
+\documentclass[10pt, compress,xcolor={svgnames,dvipsnames,x11names},trans]{beamer}
+
+\usepackage[frenchb]{babel}
+\usepackage{csquotes}
+\usepackage{comment}
+\usepackage{tikzsymbols}
+
+%%% mtheme customisations
+% Theme: http://mirrors.ircam.fr/pub/CTAN/macros/latex/contrib/beamer-contrib/themes/metropolis/doc/metropolistheme.pdf
+\usetheme[progressbar=frametitle,block=fill,numbering=fraction]{m}
+\setmonofont[Scale=0.92]{Fira Mono}
+\AtBeginSubsection{
+\metroset{color/background=dark}
+\frame[plain,c]{
+  \begin{center}
+  \begin{minipage}{25em}
+    \usebeamercolor[fg]{section title}
+    \usebeamerfont{section title}
+    \insertsubsection\\[-1ex]
+    \usebeamertemplate*{progress bar in section page}
+  \end{minipage}
+  \end{center}
+}
+\metroset{color/background=light}
+}
+%%%%% end mtheme
+
+\setbeamertemplate{frametitle continuation}[from second]
+\setbeamertemplate{bibliography item}[book]
+\setbeamertemplate{footline}[total frame number]
+%\addtobeamertemplate{footline}{\insertframenumber/\inserttotalframenumber}
+
+%\usepackage{xeCJK}
+%\setCJKsansfont[BoldFont=Kozuka Gothic Pro]{Kozuka Gothic Pro L}
+%\setCJKsansfont{IPAGothic}
+% \newCJKfontfamily{\xiheifont}[BoldFont=STHeiti]{STXihei}
+%\newCJKfontfamily{\xiheifont}{WenQuanYi Micro Hei}
+
+\usetikzlibrary{arrows}
+\usetikzlibrary{chains}
+\usepackage{tikz-qtree}
+\usepackage{multicol}
+
+\usepackage{expex}
+%\lingset{glhangindent=2em,glspace=1em,aboveexskip=0pt,belowexskip=0pt,aboveglftskip=-3pt,extraglskip=3pt} %v0.1
+%\lingset{exskip=0pt,interpartskip=-3pt,belowpreambleskip=-3pt,belowglpreambleskip=-3pt,aboveglftskip=-3pt,extraglskip=3pt,glhangstyle=none}
+\usepackage{relsize}
+\usepackage{booktabs,tabularx}
+%\usepackage{textcomp}
+\usepackage{listings}
+\lstset{basicstyle=\ttfamily,breaklines=true,breakatwhitespace=true,
+keywordstyle={\color{NavyBlue}\bfseries}, showstringspaces=false,
+commentstyle={\color{PaleVioletRed4}},
+emphstyle={\color{OliveGreen}\bfseries}
+}
+
+
+\usepackage{algorithmic}
+\renewcommand{\algorithmiccomment}[1]{\alert{/* #1 */}}
+
+\usetikzlibrary{shapes.multipart}
+\usetikzlibrary{positioning}
+\usetikzlibrary{arrows.meta}
+
+\makeatletter
+\pgfarrowsdeclare{crow's foot}{crow's foot}
+{
+  \pgfarrowsleftextend{+-.5\pgflinewidth}%
+  \pgfarrowsrightextend{+.5\pgflinewidth}%
+}
+{
+  \pgfutil@tempdima=0.5pt%
+  \advance\pgfutil@tempdima by.25\pgflinewidth%
+  \pgfsetdash{}{+0pt}%
+  \pgfsetmiterjoin%
+  \pgfpathmoveto{\pgfqpoint{0pt}{-6\pgfutil@tempdima}}%
+  \pgfpathlineto{\pgfqpoint{-6\pgfutil@tempdima}{0pt}}%
+  \pgfpathlineto{\pgfqpoint{0pt}{6\pgfutil@tempdima}}%
+  \pgfusepathqstroke%
+}
+
+\usepackage[backend=biber,style=ieee,date=long,maxbibnames=5,language=english]{biblatex}
+\DeclareFieldFormat*{date}{\alert{#1}}
+%\DefineBibliographyStrings{french}{in={dans},inseries={dans}, volume={vol\adddot}, number={no\adddot}, pages = {pp\adddot}}
+%\renewcommand{\bibfont}{\small}
+\setlength{\bibhang}{1em}
+\setlength{\bibitemsep}{1ex}
+\bibliography{bibliographie}
+\renewcommand{\UrlFont}{\ttfamily}
+
+\usepackage[os=mac]{menukeys}
+
+\usepackage{amssymb}% http://ctan.org/pkg/amssymb
+\usepackage{pifont}% http://ctan.org/pkg/pifont
+\newcommand{\cmark}{\ding{51}}%
+\newcommand{\xmark}{\ding{55}}%
+
+\usepackage{booktabs}
+\usepackage{amsmath}
+
+\newcommand{\tikzmark}[1]{\tikz[remember picture] \node[coordinate] (#1) {#1};}
