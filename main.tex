@@ -16,31 +16,116 @@
 
 
 
+\plain{Introduction : \\la représentation parcimonieuse}
 
-\plain{Introduction : la représentation parcimonieuse}
 
-\begin{frame}[label=LO]
-\frametitle{La représentation parcimonieuse}
+\begin{frame}[label=LO]{La représentation parcimonieuse}
+La \alert{représentation parcimonieuse} permet de débruiter, décrire, compresser, classifier
+\todo[inline]{TODO: ajouter exemple image débruitée avec KSVD}
 \end{frame}
 
-\begin{frame}[]
-\frametitle{Les dictionnaires}
 
+\begin{frame}{Les dictionnaires}
+Opérateurs qui transforment une image dans une représentation différente (ici, une représentation parcimonieuse)
 \end{frame}
 
-\begin{frame}[]
-\frametitle{Dictionnaires génériques vs. appris}
+
+\begin{frame}{Dictionnaires génériques vs. appris}
+(génériques)
+DCT pour la compression JPEG
+Fourier, wavelets et curvelets 
+(appris)
+KSVD
 \end{frame}
 
-\begin{frame}[]
-\frametitle{Problème du coût de $\D\x$  dans l'apprentissage}
+
+\begin{frame}{Problème du coût de $Dx$ dans l'apprentissage}
+Pour apprendre un dictionnaire parcimonieux : le (DL)
+\begin{equation}
+	\argmin \| Dx - y \| - \|x\|_1
+\end{equation}
+Problème : $Dx$ coûte cher ($O(N^2)$)
+Solution intermédiaire : réduire la taille des images en entrée (patches dans KSVD)
+Défaut : les atomes ne peuvent pas représenter de grandes formes
 \end{frame}
+
+
+\begin{frame}{Motivations générales}
+	\begin{itemize}
+		\item développer une transformée rapide, même sur de grands atomes
+		\item effectuer l'apprentissage directement sur toute l'image au lieu des patches
+	\end{itemize}
+\end{frame}
+
+
+\plain{Existant : \\ Modèle d'arbre convolutionnel et PALMTREE}
+
+\begin{frame}{Existant : le modèle d'arbres de convolutions}
+	\todo[inline]{Expliquer arbre}
+\end{frame}
+
+
+\begin{frame}{Existant : problème associé}
+	\todo[inline]{Expliquer FTL}
+\end{frame}
+
+
+\begin{frame}{Existant : algorithme PALMTREE}
+	\todo[inline]{quelques mots sur les étapes de PALMTREE}
+\end{frame}
+
+
+\begin{frame}{Existant : résultats et défauts}
+	\todo[inline]{image de 16 curvelet approchées}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Objectifs du stage}
+	Étudier la possibilité d'apprendre les supports à partir de l'image cible
+\end{frame}
+
+
+\plain{Travail réalisé}
+
+\begin{frame}{L'idée}
+\begin{itemize}
+	\item Apprendre le support "à la OMP"
+	\item Utiliser la direction de plus forte descente du gradient
+\end{itemize}
+Dans les faits, il a fallu
+\begin{itemize}
+	\item Vérifier que le gradient indique bien le meilleur élément à ajouter au support
+	\item Vérifier que l'algo OMP-PALMTREE fonctionne sur un arbre
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Ajouter un élément au support avec le gradient?}
+\end{frame}
+
+
+\begin{frame}{OMP-PALMTREE sur une branche}
+\end{frame}
+
+
+\begin{frame}{OMP-PALMTREE sur un arbre}
+Soucis
+\begin{itemize}
+	\item les éléments de chaque supports sont très éloignés les uns des autres
+	\item la taille du support est déséquilibrée à travers l'arbre
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Régularisation}
+\end{frame}
+
 
 \begin{frame}{En quelques mots...}
 \begin{itemize}
-\item un premier pas dans la recherche (TER M1)
-\item projet d'\alert{enseigner} durant la thèse et objectif enseignant-chercheur
-\item thèse CIMI mêlant $\underbrace{\text{\alert{informatique}}}_{\text{ma formation}}$ et $\underbrace{\text{\alert{mathématiques}}}_{\text{stage de M2}}$
+\item PALMTREE (existant) se base sur des arbres de convolutions
+\item Passer des supports fixes (PALMTREE) à des supports appris (OMP-PALMTREE)
+\item ...
 \end{itemize}
 \vfill
 \hfill Merci de votre attention
