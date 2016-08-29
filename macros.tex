@@ -1,6 +1,34 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % MACROS
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand   {\V} {\mathcal V} % vertex set
+\newcommand   {\E} {\mathcal E} % edges set
+\renewcommand {\L} {\mathcal L} % leaves set
+\newcommand   {\x} {\bm{x}} % code
+\newcommand   {\X} {\bm{X}} % matrix of columns of codes x
+\newcommand   {\y} {\bm{y}} % the target image
+\newcommand   {\Y} {\bm{Y}} % matrix of columns of y
+\newcommand   {\g} {\bm{g}} % gain-per-added-point
+\newcommand   {\s} {\bm{s}} % support
+\newcommand   {\h} {\bm{h}} % kernel (main notation)
+\renewcommand {\k} {\bm{k}} % kernel (secondary notation)
+\newcommand   {\D} {\bm{D}}
+\renewcommand {\d} {\bm{d}}
+\renewcommand {\P} {\mathcal P} % space where lives codes x
+\newcommand   {\T} {\mathcal T} % tree
+\renewcommand {\H} {\bm{H}} % subtree of convolutions
+\newcommand   {\R} {\mathbb{R}} % R space
+\newcommand   {\Res} {\bm{R}} % residual
+
+\newcommand {\Dspace} {{\mathcal D}} % D^e, constraint set
+
+\newcommand {\hall} {{\h^e _{e \in \E}}}
+\newcommand {\multiconv}[1] {{ \h^{#1}\, }}
+
+\renewcommand {\O} {\mathcal{O}}
+
+% Fourier
+\newcommand {\F} {{\mathcal F}}
+\newcommand {\norm}[2] {\left\| #1 \right\| _{#2}}
+\newcommand {\defeq} {\triangleq}
 
 % Couleurs pour les corrections
 \newcommand {\JY}[1] {\textcolor{red}{#1}}
@@ -15,12 +43,10 @@
 \newcommand {\black}[1] {\textcolor{black}{#1}}
 
 % Espaces mathématiques
-\newcommand {\DPUN} {{\mathcal D}}
 \newcommand {\DTREE} {{\mathcal D}^e}
 \newcommand {\CC} {\mathbb C}
-\newcommand {\RR} {\mathbb R}
 \newcommand {\RP} {\mathbb R^{\mathcal P}}
-\newcommand {\RPE} {\mathbb R^{\mathcal P \times |\edges |}}
+\newcommand {\RPE} {\mathbb R^{\mathcal P \times |\E |}}
 \newcommand {\codeset} {\mathbb R^{\mathcal P \times \leaves}}
 \newcommand {\Dset} {\mathbb R^{\mathcal P \times (\mathcal P \#\leaves) }}
 \newcommand {\ZZ} {\mathbb Z}
@@ -31,11 +57,7 @@
 \renewcommand {\SS} {{\mathcal S}} % applis supports
 \newcommand {\SA} {{\mathbb S}} % support accessible
 
-% Fonctions
-\newcommand {\f}[1] { {\mathcal F}\left( #1 \right) }
-\newcommand {\F}[1] { {\mathcal F^{-1}}\left( #1 \right) }
-\newcommand {\norm}[2] {\left\| #1 \right\| _{#2}}
-\newcommand {\defeq} {\triangleq}
+
 
 % Opérateurs
 \DeclareMathOperator {\sign} {sign}
@@ -62,29 +84,7 @@
 % Raccourcis
 \newtheorem{prop}{Proposition}[section]
 
-\newcommand {\nodes} {\mathcal N}
-\newcommand {\edges} {\mathcal E}
-\newcommand {\leaves} {\mathcal F}
-\newcommand {\NL} {\#\leaves}
-\newcommand {\hall} {h^e _{e \in \edges}}
-%\newcommand {\multiconv}[1] { \bigstar_{\substack{#1}}\, }
-\newcommand {\multiconv}[1] { \mathbf h^{#1}\, }
-\newcommand {\tpath}[1] {\mathcal{C}(#1)}
-\newcommand {\code} {\mathbf x}
-\newcommand {\data} {\mathbf y}
-\newcommand {\dataex} {\mathbf b}
-\newcommand {\databis} {\mathbf y^e}
-\newcommand {\D} {\mathbf D}
-\newcommand {\Hs} {\mathbf A}
-\newcommand {\Ha} {\mathbf H}
-\newcommand {\Haf} {\hat{\mathbf H}}
-\newcommand {\Hab} {\bar{\mathbf H}}
-\newcommand {\res} {\mathbf r}
 
-\newcommand {\tree}{\mathcal T}
-\newcommand{\subtree}[1]{\tree^{#1}}
-
-\newcommand {\stopalgo}{\epsilon}
 
 % autres MACROS
 \newcommand {\hkall} {(h^k)_{1 \leq k \leq K}}
@@ -94,3 +94,17 @@
 \newcommand {\hkconvs} {f^{1} * \dots * f^{K}}
 \newcommand {\fobj} {\| \code * h^1 * \dots * h^K - \data \|_2^2}
 \newcommand {\fobjlambda} {\| \lambda \code * h^1 * \dots * h^K - \data \|_2^2}
+
+% Macros added by Mael
+\newcommand{\file}{\texttt}
+\newcommand{\dispCode}{\texttt}
+\newcommand{\dispCodeLong}[1]{
+\begin{verbatim} #1 \end{verbatim}
+}
+\DeclareMathOperator*{\argmax}{\arg\!\max}% http://tex.stackexchange.com/q/83169/5764
+
+\algnewcommand\algorithmicinput{\textbf{Input:}}
+\algnewcommand\Input{\item[\algorithmicinput]}
+\algnewcommand\algorithmicoutput{\textbf{Output:}}
+\algnewcommand\Output{\item[\algorithmicoutput]}
+
