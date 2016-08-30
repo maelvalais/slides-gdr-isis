@@ -24,48 +24,64 @@ La \alert{représentation parcimonieuse} permet de débruiter, décrire, compres
 
 
 \begin{frame}{Les dictionnaires}
-Opérateurs qui transforment une image dans une représentation différente (ici, une représentation parcimonieuse)
+Dictionnaire = opérateur permettant de passer d'une image à une représentation cible
+
 \end{frame}
 
 
 \begin{frame}{Dictionnaires génériques vs. appris}
-(génériques)
-DCT pour la compression JPEG
-Fourier, wavelets et curvelets 
-(appris)
-KSVD
+\begin{description}
+	\item[Dictionnaires génériques] cosinus (JPEG), Fourier, Wavelets, Curvelets
+	\item[Dictionnaires appris] K-SVD
+\end{description}
 \end{frame}
 
 
-\begin{frame}{Problème du coût de $Dx$ dans l'apprentissage}
-Pour apprendre un dictionnaire parcimonieux : le (DL)
-\begin{equation}
-	\argmin \| Dx - y \| - \|x\|_1
-\end{equation}
-Problème : $Dx$ coûte cher ($O(N^2)$)
-Solution intermédiaire : réduire la taille des images en entrée (patches dans KSVD)
-Défaut : les atomes ne peuvent pas représenter de grandes formes
+\begin{frame}{Problème du coût de Dx}
+Problème d'apprentissage de dictionnaire \eqref{eq_dl} pour apprendre un dictionnaire parcimonieux :
+\begin{align} 
+\underset{\D,\x}{\min}~ & \| \x \|_1 + \lambda \| \Req{\D\x}-\y \|^2_2 \tag{$DL$}\label{eq_dl} \\
+\text{s.t.}~ & \| \d_k \| \le \gamma & \forall k = 1,\dots,K\label{eq_dl_finite_norm} \notag
+\end{align}
+\begin{description}
+	\item[Problème] Coût élevé de $\D\x$ : \alert{$O(N^2)$}
+	\item[Solution] Réduire la taille des images en entrée (patches dans KSVD)
+	\item[Défaut] Les atomes ne peuvent pas représenter de grandes formes
+\end{description}
 \end{frame}
 
 
 \begin{frame}{Motivations générales}
 	\begin{itemize}
-		\item développer une transformée rapide, même sur de grands atomes
-		\item effectuer l'apprentissage directement sur toute l'image au lieu des patches
+		\item développer une \alert{transformée rapide} adaptée aux grands atomes
+		\item effectuer l'apprentissage \alert{directement sur l'image} au lieu des patches
 	\end{itemize}
 \end{frame}
 
 
-\plain{Existant : \\ Modèle d'arbre convolutionnel et PALMTREE}
+\plain{Existant : \\Modèle d'arbre convolutionnel et PALMTREE}
 
 \begin{frame}{Existant : le modèle d'arbres de convolutions}
+\includegraphics[width=\textwidth]{figures/tree.pdf}
 
-	\todo[inline]{Expliquer arbre}
+Ainsi, le produit $\D\x$ est réduit à
+
+\begin{equation}
+\D \x = \Req{\sum_{l \in ~\text{Feuilles}}} \x^{\Req{l}} * \underbrace{\h^{\Req{l}}* \dots* \h^{r}}_{\textrm{de la racine à la feuille}}
+\end{equation}
+soit une complexité en \alert{$O(N)$}
+
 \end{frame}
 
 
 \begin{frame}{Existant : problème associé}
-	\todo[inline]{Expliquer FTL}
+On appelle \eqref{eq_ftl} (\alert{Fast Transform Learning}) l'adaptation de \eqref{eq_dl} à ce modèle :
+\begin{equation*} {\small
+\underset{\substack{(\h^\text{e})_{e \in \E}}}\min
+	\norm{\Req{\sum_{l \in Feuilles}} \x^{\Req{l}} * \h^{*\Req{l}} -\y}{2}^2 \tag{${FTL}$} \label{eq_ftl}
+    }
+\end{equation*}
+L'algorithme \alert{PALMTREE} donne une solution à ce problème.
 \end{frame}
 
 
