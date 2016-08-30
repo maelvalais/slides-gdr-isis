@@ -72,7 +72,7 @@ Ainsi, le produit $\D\x$ est réduit à
 soit une complexité en \alert{$O(N)$}
 
 \end{frame}
-
+ 
 
 \begin{frame}{Existant : problème associé}
 On appelle \eqref{eq_ftl} (\alert{Fast Transform Learning}) l'adaptation de \eqref{eq_dl} à ce modèle :
@@ -81,18 +81,43 @@ On appelle \eqref{eq_ftl} (\alert{Fast Transform Learning}) l'adaptation de \eqr
 	\norm{\Req{\sum_{l \in Feuilles}} \x^{\Req{l}} * \h^{*\Req{l}} -\y}{2}^2 \tag{${FTL}$} \label{eq_ftl}
     }
 \end{equation*}
-L'algorithme \alert{PALMTREE} donne une solution à ce problème.
+L'algorithme \alert{PALMTREE} donne une solution à ce problème :
+\begin{itemize}
+	\item algorithme itérant successivement sur les blocs de variables $\h^e$
+	\item \cite{chabiron_optimization_2016} a montré que le point  critique atteint n'est pas trop éloigné du minimum global
+\end{itemize}
 \end{frame}
 
 
-\begin{frame}{Existant : algorithme PALMTREE}
-	\todo[inline]{quelques mots sur les étapes de PALMTREE}
+\begin{frame}{Existant : exemple issu de PALMTREE}
+\begin{figure}[!ht]\centering
+\begin{subfigure}[b]{0.30\textwidth}\centering
+	\includegraphics[width=\textwidth]{figures-masters-thesis/tree-learn-setup/target.pdf}
+	\caption{Image cible $\y$}
+\end{subfigure}
+\begin{subfigure}[b]{0.30\textwidth}\centering
+	\includegraphics[width=\textwidth]{figures-masters-thesis/tree-learn-setup/xp_learnsupp256_curvelet_decomp3[tree-binary_dpth4]_supp-generic3x3_[fixed-supports]_tree.pdf}
+		\caption{Supports des noyaux}
+\end{subfigure}
+\begin{subfigure}[b]{0.30\textwidth}\centering
+	\includegraphics[width=\textwidth]{figures-masters-thesis/tree-learn-setup/codes.pdf}
+	\caption{Quelques codes $\x^l$}
+\end{subfigure}
+\end{figure}
 \end{frame}
 
 
 \begin{frame}{Existant : résultats et défauts}
-	\todo[inline]{image de 16 curvelet approchées}
+\begin{figure} \centering
+\begin{subfigure}[b]{0.30\textwidth}\centering
+	\includegraphics[width=\textwidth]{figures-masters-thesis/tree-learn-setup/xp_learnsupp256_curvelet_decomp3[tree-binary_dpth4]_supp-generic3x3_[fixed-supports]_approx.pdf}
+\end{subfigure}
+\begin{subfigure}[b]{0.30\textwidth}\centering
+	\includegraphics[width=\textwidth]{figures-masters-thesis/tree-learn-setup/xp_learnsupp256_curvelet_decomp3[tree-binary_dpth4]_supp-generic3x3_[fixed-supports]_mothertree.pdf}
+\end{subfigure}
+\end{figure}
 \end{frame}
+
 
 \begin{frame}
 	\frametitle{Objectifs du stage}
@@ -149,8 +174,8 @@ Soucis
 \appendix
 
 \begin{frame}[allowframebreaks,noframenumbering]
-\frametitle{Bibliographie de l'équipe}
-\nocite{*}
+\frametitle{Bibliographie}
+%\nocite{}
 \printbibliography[heading=none]
 \end{frame}
 
