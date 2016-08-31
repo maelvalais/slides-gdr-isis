@@ -1,20 +1,25 @@
 \input{config.tex} % Les usepackage sont dans config.tex
-\input{macros.tex} % Présentation d'O. Chabiron
+\input{macros.tex} % 
 
 
 
 \title{Optimisation de dictionnaires structurés en arbres de convolutions pour la représentation parcimonieuse d'images}
 \subtitle{Stage encadrée par\\François Malgouyres (IMT), Jean-Yves Tourneret (IRIT-ENSEEIHT) et Herwig Wendt (CNRS-ENSEEIHT)}
 
+
+
 \date{Soutenance de stage du 8 septembre 2016}
 \author{Maël Valais}
-%\institute{}
+\institute{Université Toulouse III - Paul Sabatier}
 
 \begin{document}
 
 \maketitle
 
-\plain{Introduction : \\la représentation parcimonieuse}
+\addtobeamertemplate{footline}{~\insertframenumber/\inserttotalframenumber~} % Display slide numbering "2/30"
+
+\section{Introduction}
+\subsection{La représentation parcimonieuse}
 
 
 \begin{frame}[label=LO]{La représentation parcimonieuse}
@@ -25,7 +30,6 @@ La \alert{représentation parcimonieuse} permet de débruiter, décrire, compres
 
 \begin{frame}{Les dictionnaires}
 Dictionnaire = opérateur permettant de passer d'une image à une représentation cible
-
 \end{frame}
 
 
@@ -59,7 +63,7 @@ Problème d'apprentissage de dictionnaire \eqref{eq_dl} pour apprendre un dictio
 \end{frame}
 
 
-\plain{Existant : \\Modèle d'arbre convolutionnel et PALMTREE}
+\section{Existant : Modèle d'arbre convolutionnel et PALMTREE}
 
 \begin{frame}{Existant : le modèle d'arbres de convolutions}
 \includegraphics[width=\textwidth]{figures/tree.pdf}
@@ -97,7 +101,7 @@ L'algorithme \alert{PALMTREE} donne une solution à ce problème :
 \end{subfigure}
 \begin{subfigure}[b]{0.30\textwidth}\centering
 	\includegraphics[width=\textwidth]{figures-masters-thesis/tree-learn-setup/xp_learnsupp256_curvelet_decomp3[tree-binary_dpth4]_supp-generic3x3_[fixed-supports]_tree.pdf}
-		\caption{Supports des noyaux}
+		\caption{Supports}
 \end{subfigure}
 \begin{subfigure}[b]{0.30\textwidth}\centering
 	\includegraphics[width=\textwidth]{figures-masters-thesis/tree-learn-setup/codes.pdf}
@@ -125,7 +129,7 @@ L'algorithme \alert{PALMTREE} donne une solution à ce problème :
 \end{frame}
 
 
-\plain{Travail réalisé}
+\section{Travail réalisé}
 
 \begin{frame}{L'idée}
 \begin{itemize}
