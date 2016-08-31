@@ -4,7 +4,7 @@
 
 
 \title{Optimisation de dictionnaires structurés en arbres de convolutions pour la représentation parcimonieuse d'images}
-\subtitle{Stage encadrée par\\François Malgouyres (IMT), Jean-Yves Tourneret (IRIT-ENSEEIHT) et Herwig Wendt (CNRS-ENSEEIHT)}
+\subtitle{Stage encadré par\\François Malgouyres (IMT), Jean-Yves Tourneret (IRIT-ENSEEIHT) et Herwig Wendt (CNRS-ENSEEIHT)}
 
 
 
@@ -22,33 +22,59 @@
 \subsection{La représentation parcimonieuse}
 
 
-\begin{frame}[label=LO]{La représentation parcimonieuse}
-La \alert{représentation parcimonieuse} permet de débruiter, décrire, compresser, classifier
-\todo[inline]{TODO: ajouter exemple image débruitée avec KSVD}
+\begin{frame}{La représentation parcimonieuse}
+\begin{itemize}
+\item La représentation parcimonieuse permet de débruiter, décrire, compresser, classifier
+\item Exemple de débruitage en utilisant K-SVD sur l'image bruitée :
+	\begin{columns}
+	\begin{column}{0.30\textwidth} \begin{figure}\centering
+		\includegraphics[width=\textwidth]{figures/exple-denoise/noisy.jpg}
+	\end{figure}\end{column}
+	\begin{column}{0.1\textwidth} \centering
+		$\rightarrow$
+		Learn $\D$
+	\end{column}
+	\begin{column}{0.30\textwidth} \begin{figure}\centering
+		\includegraphics[width=\textwidth]{figures/exple-denoise/dict_ksvd.jpg}
+	\end{figure} \end{column}
+	\begin{column}{0.12\textwidth} \centering
+		$\rightarrow$\\
+		Denoise \\
+		using\\
+		$\D$
+	\end{column}
+	\begin{column}{0.30\textwidth} \begin{figure}\centering
+		\includegraphics[width=\textwidth]{figures/exple-denoise/denoised_ksvd.jpg}
+	\end{figure} \end{column}
+	\end{columns}
+\end{itemize}
 \end{frame}
 
 
 \begin{frame}{Les dictionnaires}
-Dictionnaire = opérateur permettant de passer d'une image à une représentation cible
+\begin{itemize}
+\item Un dictionnaire peut permettre de représenter parcimonieusement
+\item Deux grands types de dictionnaires : générique et appris
+	\begin{table}[] \centering
+	\begin{tabular}{@{}lcc@{}} \toprule
+	 & Rapide & Adaptatif \\ \midrule
+	DCT (générique) & \Geq{\cmark} & \Req{\xmark}\\
+	K-SVD (appris) & \Req{\xmark} & \Geq{\cmark} \\ \bottomrule
+	\end{tabular}
+	\end{table}
+\end{itemize}
 \end{frame}
 
-
-\begin{frame}{Dictionnaires génériques vs. appris}
-\begin{description}
-	\item[Dictionnaires génériques] cosinus (JPEG), Fourier, Wavelets, Curvelets
-	\item[Dictionnaires appris] K-SVD
-\end{description}
-\end{frame}
 
 
 \begin{frame}{Problème du coût de Dx}
 Problème d'apprentissage de dictionnaire \eqref{eq_dl} pour apprendre un dictionnaire parcimonieux :
 \begin{align} 
-\underset{\D,\x}{\min}~ & \| \x \|_1 + \lambda \| \Req{\D\x}-\y \|^2_2 \tag{$DL$}\label{eq_dl} \\
+\underset{\D,\x}{\min}~ & \| \x \|_1 + \lambda \| \Beq{\D\x}-\y \|^2_2 \tag{$DL$}\label{eq_dl} \\
 \text{s.t.}~ & \| \d_k \| \le \gamma & \forall k = 1,\dots,K\label{eq_dl_finite_norm} \notag
 \end{align}
 \begin{description}
-	\item[Problème] Coût élevé de $\D\x$ : \alert{$O(N^2)$}
+	\item[Problème] Coût élevé de $\D\x$ : $O(N^2)$
 	\item[Solution] Réduire la taille des images en entrée (patches dans KSVD)
 	\item[Défaut] Les atomes ne peuvent pas représenter de grandes formes
 \end{description}
@@ -63,91 +89,114 @@ Problème d'apprentissage de dictionnaire \eqref{eq_dl} pour apprendre un dictio
 \end{frame}
 
 
-\section{Existant : Modèle d'arbre convolutionnel et PALMTREE}
 
-\begin{frame}{Existant : le modèle d'arbres de convolutions}
-\includegraphics[width=\textwidth]{figures/tree.pdf}
 
+
+
+
+\section{Existant}
+
+
+
+
+
+
+\begin{frame}{Le modèle d'arbres de convolutions}
+\begin{figure}
+	\includegraphics[width=\textwidth]{figures/tree.pdf}
+\end{figure}
 Ainsi, le produit $\D\x$ est réduit à
-
-\begin{equation}
-\D \x = \Req{\sum_{l \in ~\text{Feuilles}}} \x^{\Req{l}} * \underbrace{\h^{\Req{l}}* \dots* \h^{r}}_{\textrm{de la racine à la feuille}}
+\begin{equation} 
+\D \x = \Beq{\sum_{l \in ~\text{Feuilles}}} \x^{\Beq{l}} * \underbrace{\h^{\Beq{l}}* \dots* \h^{r}}_{\textrm{de la racine à la feuille}}
 \end{equation}
-soit une complexité en \alert{$O(N)$}
-
+soit une complexité en $O(N)$.
 \end{frame}
  
 
-\begin{frame}{Existant : problème associé}
-On appelle \eqref{eq_ftl} (\alert{Fast Transform Learning}) l'adaptation de \eqref{eq_dl} à ce modèle :
+\begin{frame}{Problème associé}
+On appelle \eqref{eq_ftl} (\emph{Fast Transform Learning}) l'adaptation de \eqref{eq_dl} à ce modèle :
 \begin{equation*} {\small
 \underset{\substack{(\h^\text{e})_{e \in \E}}}\min
-	\norm{\Req{\sum_{l \in Feuilles}} \x^{\Req{l}} * \h^{*\Req{l}} -\y}{2}^2 \tag{${FTL}$} \label{eq_ftl}
+	\norm{\Beq{\sum_{l \in Feuilles}} \x^{\Beq{l}} * \h^{*\Beq{l}} -\y}{2}^2 \tag{${FTL}$} \label{eq_ftl}
     }
 \end{equation*}
-L'algorithme \alert{PALMTREE} donne une solution à ce problème :
+L'algorithme \emph{PALMTREE} donne une solution à ce problème :
 \begin{itemize}
-	\item algorithme itérant successivement sur les blocs de variables $\h^e$
+	\item algorithme proximal itérant successivement sur les blocs de variables $\h^e$
 	\item \cite{chabiron_optimization_2016} a montré que le point  critique atteint n'est pas trop éloigné du minimum global
 \end{itemize}
 \end{frame}
 
 
-\begin{frame}{Existant : exemple issu de PALMTREE}
-\begin{figure}[!ht]\centering
-\begin{subfigure}[b]{0.30\textwidth}\centering
-	\includegraphics[width=\textwidth]{figures-masters-thesis/tree-learn-setup/target.pdf}
-	\caption{Image cible $\y$}
-\end{subfigure}
-\begin{subfigure}[b]{0.30\textwidth}\centering
-	\includegraphics[width=\textwidth]{figures-masters-thesis/tree-learn-setup/xp_learnsupp256_curvelet_decomp3[tree-binary_dpth4]_supp-generic3x3_[fixed-supports]_tree.pdf}
-		\caption{Supports}
-\end{subfigure}
-\begin{subfigure}[b]{0.30\textwidth}\centering
-	\includegraphics[width=\textwidth]{figures-masters-thesis/tree-learn-setup/codes.pdf}
-	\caption{Quelques codes $\x^l$}
-\end{subfigure}
-\end{figure}
+\begin{frame}{Exemple de solution de PALMTREE}
+\textbf{Entrée :} code $\x$, image $\y$, supports $\s$, arbre $\T$
+\begin{columns}
+\begin{column}{0.32\textwidth} \begin{figure}\centering
+	\includegraphics[width=\textwidth]{figures/tree-learn-setup/target.pdf} \caption{Image cible $\y$}
+\end{figure}\end{column}
+\begin{column}{0.32\textwidth} \begin{figure}\centering
+	\includegraphics[width=\textwidth]{figures/tree-learn-setup/xp_learnsupp256_curvelet_decomp3[tree-binary_dpth4]_supp-generic3x3_[fixed-supports]_tree.pdf}
+		\caption{Supports $\s$}
+\end{figure} \end{column}
+\begin{column}{0.32\textwidth} \begin{figure}\centering
+	\includegraphics[width=\textwidth]{figures/tree-learn-setup/codes.pdf} \caption{Quelque-uns des codes $\x^l$}
+\end{figure} \end{column}
+\end{columns}
 \end{frame}
 
 
-\begin{frame}{Existant : résultats et défauts}
-\begin{figure} \centering
-\begin{subfigure}[b]{0.30\textwidth}\centering
-	\includegraphics[width=\textwidth]{figures-masters-thesis/tree-learn-setup/xp_learnsupp256_curvelet_decomp3[tree-binary_dpth4]_supp-generic3x3_[fixed-supports]_approx.pdf}
-\end{subfigure}
-\begin{subfigure}[b]{0.30\textwidth}\centering
-	\includegraphics[width=\textwidth]{figures-masters-thesis/tree-learn-setup/xp_learnsupp256_curvelet_decomp3[tree-binary_dpth4]_supp-generic3x3_[fixed-supports]_mothertree.pdf}
-\end{subfigure}
-\end{figure}
+\begin{frame}{Exemple de solution de PALMTREE}
+\textbf{Sortie :} les noyaux $\h$ et l'approximation $\D\x$
+\begin{columns}
+\begin{column}{0.49\textwidth} \begin{figure}\centering
+	\includegraphics[width=\textwidth]{figures/tree-learn-setup/xp_learnsupp256_curvelet_decomp3[tree-binary_dpth4]_supp-generic3x3_[fixed-supports]_approx.pdf}
+\end{figure}\end{column}
+\begin{column}{0.49\textwidth} \begin{figure}\centering
+	\includegraphics[width=\textwidth]{figures/tree-learn-setup/xp_learnsupp256_curvelet_decomp3[tree-binary_dpth4]_supp-generic3x3_[fixed-supports]_mothertree.pdf}
+\end{figure}\end{column}
+\end{columns}
 \end{frame}
 
 
-\begin{frame}
-	\frametitle{Objectifs du stage}
-	Étudier la possibilité d'apprendre les supports à partir de l'image cible
+\begin{frame}{Objectifs du stage}
+\begin{alertblock}{Inconvénients de PALMTREE}
+\begin{itemize}
+	\item Supports fixes $\rightarrow$ perte d'adaptabilité
+	\item Arbre fixe
+\end{itemize}
+\end{alertblock}
+\begin{exampleblock}{Objectifs du stage}
+Apprendre les supports à partir de l'image $\y$
+\end{exampleblock}
 \end{frame}
 
 
 \section{Travail réalisé}
 
 \begin{frame}{L'idée}
+\begin{block}{Algorithme OMP}
+	\begin{enumerate}
+		\item \textbf{Chercher} meilleur élément à ajouter au support
+		\item Ajouter l'élément
+		\item \textbf{Projeter} orthogonalement pour prendre en compte l'ajout
+		\item Recommencer jusqu'à ce que le support soit assez grand
+	\end{enumerate}
+\end{block}
 \begin{itemize}
-	\item Apprendre le support "à la OMP"
-	\item Utiliser la direction de plus forte descente du gradient
+\item \textbf{Pour chercher :} direction de plus forte descente (gradient)
+\item \textbf{Pour projeter :} utiliser PALMTREE
 \end{itemize}
-Dans les faits, il a fallu
+\begin{exampleblock}{Questionnements}
 \begin{itemize}
-	\item Vérifier que le gradient indique bien le meilleur élément à ajouter au support
-	\item Vérifier que l'algo OMP-PALMTREE fonctionne sur un arbre
+	\item Le gradient suffit-il pour ajouter le meilleur élément possible ?
+	\item Cet algorithme fonctionne t-il dans le cadre d'arbres ?
 \end{itemize}
+\end{exampleblock}
 \end{frame}
 
 
 \begin{frame}{Ajouter un élément au support avec le gradient?}
 \end{frame}
-
-
 \begin{frame}{OMP-PALMTREE sur une branche}
 \end{frame}
 
