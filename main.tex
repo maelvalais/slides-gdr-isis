@@ -101,8 +101,8 @@ Problème d'apprentissage de dictionnaire \eqref{eq_dl} pour apprendre un dictio
 
 
 \begin{frame}{Le modèle d'arbres de convolutions}
-\begin{figure}
-	\includegraphics[width=\textwidth]{figures/tree.pdf}
+\begin{figure}\centering
+\makebox[\linewidth]{\includegraphics[width=1.1\linewidth]{figures/tree.pdf}}
 \end{figure}
 Ainsi, le produit $\D\x$ est réduit à
 \begin{equation} 
@@ -133,21 +133,17 @@ L'algorithme \emph{PALMTREE} donne une solution à ce problème :
 	\item code $\x$ (un code $\x^l \in \R^N$ par feuille)
 	\item supports $\s^e$, arbre $\T$
 \end{itemize}
-\begin{columns}
-\begin{column}{1\textwidth} \begin{figure}\centering
-	\includegraphics[width=\textwidth]{figures/tree-learn-setup/inputs.pdf}
-\end{figure}\end{column}
-\end{columns}
+\begin{figure}\centering
+\makebox[\linewidth]{\includegraphics[width=1.1\linewidth]{figures/tree-learn-setup/inputs.pdf}}
+\end{figure}
 \end{frame}
 
 
 \begin{frame}{Exemple de solution de PALMTREE}
 \textbf{Sortie :} les noyaux $\h$
-\begin{columns}
-\begin{column}{1\textwidth} \begin{figure}\centering
-	\includegraphics[width=\textwidth]{figures/tree-learn-setup/outputs.pdf}
-\end{figure}\end{column}
-\end{columns}
+\begin{figure}\centering
+\makebox[\linewidth]{\includegraphics[width=1.1\linewidth]{figures/tree-learn-setup/outputs.pdf}}
+\end{figure}
 \end{frame}
 
 
@@ -208,8 +204,20 @@ Apprendre les supports à partir de l'image $\y$
 
 
 \begin{frame}{Ajouter un élément au support avec le gradient?}
+\begin{figure}\centering
+    \makebox[\linewidth]{\includegraphics[width=1.2\linewidth]{figures/check-gradient/branche-setup.pdf}}
+\end{figure}
 \end{frame}
-\includegraphics[width=0.5\textwidth]{figures/check-gradient/tree_classic.pdf}
+
+\begin{frame}{Ajouter un élément au support avec le gradient?}
+\begin{figure}\centering
+%\vspace{-0.5cm}
+    \makebox[\linewidth]{\includegraphics[width=1.1\linewidth]{figures/check-gradient/gradient-vs-gain.pdf}}
+\end{figure}
+\end{frame}
+
+
+
 \begin{frame}{OMP-PALMTREE sur une branche}
 \end{frame}
 
