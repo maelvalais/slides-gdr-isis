@@ -20,6 +20,8 @@
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{booktabs,tabularx}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,shapes.arrows}
 
 
 \usepackage[backend=biber,style=ieee-alphabetic,date=long,maxbibnames=5,language=english]{biblatex}
@@ -28,6 +30,9 @@
 
 \usetheme{Warsaw}
 \usefonttheme[onlymath]{serif}
+\setbeamertemplate{footline}{~\insertframenumber/\inserttotalframenumber~} % Display slide numbering "2/30"
+%\setbeamertemplate{navigation symbols}{}
+
 
 
 \bibliography{master-thesis.bib}

@@ -16,7 +16,6 @@
 
 \maketitle
 
-\addtobeamertemplate{footline}{~\insertframenumber/\inserttotalframenumber~} % Display slide numbering "2/30"
 
 \section{Introduction}
 \subsection{La représentation parcimonieuse}
@@ -129,30 +128,24 @@ L'algorithme \emph{PALMTREE} donne une solution à ce problème :
 
 
 \begin{frame}{Exemple de solution de PALMTREE}
-\textbf{Entrée :} code $\x$, image $\y$, supports $\s$, arbre $\T$
+\textbf{Entrées :} \begin{itemize}
+	\item image $\y$,
+	\item code $\x$ (un code $\x^l \in \R^N$ par feuille)
+	\item supports $\s^e$, arbre $\T$
+\end{itemize}
 \begin{columns}
-\begin{column}{0.32\textwidth} \begin{figure}\centering
-	\includegraphics[width=\textwidth]{figures/tree-learn-setup/target.pdf} \caption{Image cible $\y$}
+\begin{column}{1\textwidth} \begin{figure}\centering
+	\includegraphics[width=\textwidth]{figures/tree-learn-setup/inputs.pdf}
 \end{figure}\end{column}
-\begin{column}{0.32\textwidth} \begin{figure}\centering
-	\includegraphics[width=\textwidth]{figures/tree-learn-setup/xp_learnsupp256_curvelet_decomp3[tree-binary_dpth4]_supp-generic3x3_[fixed-supports]_tree.pdf}
-		\caption{Supports $\s$}
-\end{figure} \end{column}
-\begin{column}{0.32\textwidth} \begin{figure}\centering
-	\includegraphics[width=\textwidth]{figures/tree-learn-setup/codes.pdf} \caption{Quelque-uns des codes $\x^l$}
-\end{figure} \end{column}
 \end{columns}
 \end{frame}
 
 
 \begin{frame}{Exemple de solution de PALMTREE}
-\textbf{Sortie :} les noyaux $\h$ et l'approximation $\D\x$
+\textbf{Sortie :} les noyaux $\h$
 \begin{columns}
-\begin{column}{0.49\textwidth} \begin{figure}\centering
-	\includegraphics[width=\textwidth]{figures/tree-learn-setup/xp_learnsupp256_curvelet_decomp3[tree-binary_dpth4]_supp-generic3x3_[fixed-supports]_approx.pdf}
-\end{figure}\end{column}
-\begin{column}{0.49\textwidth} \begin{figure}\centering
-	\includegraphics[width=\textwidth]{figures/tree-learn-setup/xp_learnsupp256_curvelet_decomp3[tree-binary_dpth4]_supp-generic3x3_[fixed-supports]_mothertree.pdf}
+\begin{column}{1\textwidth} \begin{figure}\centering
+	\includegraphics[width=\textwidth]{figures/tree-learn-setup/outputs.pdf}
 \end{figure}\end{column}
 \end{columns}
 \end{frame}
@@ -161,14 +154,33 @@ L'algorithme \emph{PALMTREE} donne une solution à ce problème :
 \begin{frame}{Objectifs du stage}
 \begin{alertblock}{Inconvénients de PALMTREE}
 \begin{itemize}
-	\item Supports fixes $\rightarrow$ perte d'adaptabilité
-	\item Arbre fixe
+\item Supports fixes = perte d'adaptabilité
+\item Arbre fixe
 \end{itemize}
 \end{alertblock}
+\begin{columns} \centering
+\begin{column}{0.20\textwidth} \begin{figure}\centering
+	\includegraphics[width=0.9\textwidth]{figures/manual-better-support/target.pdf}
+\end{figure}\end{column}
+\begin{column}{0.20\textwidth} \begin{figure}\centering
+	\includegraphics[width=0.5\textwidth]{figures/manual-better-support/support.pdf}
+\end{figure}\end{column}
+\begin{column}{0.2\textwidth}
+\begin{center}
+	\tikz\path[draw=black,->,thick]<1-> (0,0) -- (3,0);
+	Support plus adapté ?
+\end{center}
+\end{column}
+\begin{column}{0.20\textwidth} \begin{figure}\centering
+	\includegraphics[width=0.9\textwidth]{figures/manual-better-support/support-better.pdf}
+\end{figure}\end{column}
+\end{columns}
 \begin{exampleblock}{Objectifs du stage}
 Apprendre les supports à partir de l'image $\y$
 \end{exampleblock}
 \end{frame}
+
+
 
 
 \section{Travail réalisé}
@@ -188,8 +200,8 @@ Apprendre les supports à partir de l'image $\y$
 \end{itemize}
 \begin{exampleblock}{Questionnements}
 \begin{itemize}
-	\item Le gradient suffit-il pour ajouter le meilleur élément possible ?
-	\item Cet algorithme fonctionne t-il dans le cadre d'arbres ?
+	\item Gradient convenable pour ajouter le meilleur élément possible ?
+	\item Cet algorithme fonctionne t-il dans le cadre d'un arbre ?
 \end{itemize}
 \end{exampleblock}
 \end{frame}
@@ -197,6 +209,7 @@ Apprendre les supports à partir de l'image $\y$
 
 \begin{frame}{Ajouter un élément au support avec le gradient?}
 \end{frame}
+\includegraphics[width=0.5\textwidth]{figures/check-gradient/tree_classic.pdf}
 \begin{frame}{OMP-PALMTREE sur une branche}
 \end{frame}
 
