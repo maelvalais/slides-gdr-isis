@@ -25,27 +25,9 @@
 \begin{itemize}
 \item La représentation parcimonieuse permet de débruiter, décrire, compresser, classifier
 \item Exemple de débruitage en utilisant K-SVD sur l'image bruitée :
-	\begin{columns}
-	\begin{column}{0.30\textwidth} \begin{figure}\centering
-		\includegraphics[width=\textwidth]{figures/exple-denoise/noisy.jpg}
-	\end{figure}\end{column}
-	\begin{column}{0.1\textwidth} \centering
-		$\rightarrow$
-		Learn $\D$
-	\end{column}
-	\begin{column}{0.30\textwidth} \begin{figure}\centering
-		\includegraphics[width=\textwidth]{figures/exple-denoise/dict_ksvd.jpg}
-	\end{figure} \end{column}
-	\begin{column}{0.12\textwidth} \centering
-		$\rightarrow$\\
-		Denoise \\
-		using\\
-		$\D$
-	\end{column}
-	\begin{column}{0.30\textwidth} \begin{figure}\centering
-		\includegraphics[width=\textwidth]{figures/exple-denoise/denoised_ksvd.jpg}
-	\end{figure} \end{column}
-	\end{columns}
+	\begin{figure}\centering
+	\makebox[\linewidth]{\includegraphics[width=1.1\linewidth]{figures/0-exple-denoise/exple-denoise.pdf}}
+	\end{figure}
 \end{itemize}
 \end{frame}
 
@@ -63,8 +45,6 @@
 	\end{table}
 \end{itemize}
 \end{frame}
-
-
 
 \begin{frame}{Problème du coût de Dx}
 Problème d'apprentissage de dictionnaire \eqref{eq_dl} pour apprendre un dictionnaire parcimonieux :
@@ -134,7 +114,7 @@ L'algorithme \emph{PALMTREE} donne une solution à ce problème :
 	\item supports $\s^e$, arbre $\T$
 \end{itemize}
 \begin{figure}\centering
-\makebox[\linewidth]{\includegraphics[width=1.1\linewidth]{figures/tree-learn-setup/intro-inputs.pdf}}
+\makebox[\linewidth]{\includegraphics[width=1.1\linewidth]{figures/1-intro-tree/intro-inputs.pdf}}
 \end{figure}
 \end{frame}
 
@@ -142,7 +122,7 @@ L'algorithme \emph{PALMTREE} donne une solution à ce problème :
 \begin{frame}{Exemple de solution de PALMTREE}
 \textbf{Sortie :} les noyaux $\h$
 \begin{figure}\centering
-\makebox[\linewidth]{\includegraphics[width=1.1\linewidth]{figures/tree-learn-setup/intro-outputs.pdf}}
+\makebox[\linewidth]{\includegraphics[width=1\linewidth]{figures/1-intro-tree/intro-outputs.pdf}}
 \end{figure}
 \end{frame}
 
@@ -191,50 +171,50 @@ Apprendre les supports à partir de l'image $\y$
 \subsection{Gradient convenable pour ajouter le meilleur élément possible ?}
 \begin{frame}{Explications de l'expérience}
 \begin{figure}\centering
-    \makebox[\linewidth]{\includegraphics[width=1.2\linewidth]{figures/check-gradient/branche-setup.pdf}}
+    \makebox[\linewidth]{\includegraphics[width=1.2\linewidth]{figures/2-check-gradient/branche-setup.pdf}}
 \end{figure}
 \end{frame}
 
 \begin{frame}{Gain versus gradient}
 \begin{figure}\centering
-    \makebox[\linewidth]{\includegraphics[width=1.1\linewidth]{figures/check-gradient/gradient-vs-gain.pdf}}
+    \makebox[\linewidth]{\includegraphics[width=1.1\linewidth]{figures/2-check-gradient/gradient-vs-gain.pdf}}
 \end{figure}
 \end{frame}
 
 \begin{frame}{Après ajout}
 \begin{figure}\centering
-    \makebox[\linewidth]{\includegraphics[width=1.0\linewidth]{figures/check-gradient/apres-ajout.pdf}}
+    \makebox[\linewidth]{\includegraphics[width=1.0\linewidth]{figures/2-check-gradient/apres-ajout.pdf}}
 \end{figure}
 \end{frame}
 
 \begin{frame}{Explication expériences sur un arbre}
 \begin{figure}\centering
-    \makebox[\linewidth]{\includegraphics[width=1.0\linewidth]{figures/tree-learn-setup/learn-inputs.pdf}}
+    \makebox[\linewidth]{\includegraphics[width=1.0\linewidth]{figures/3-learn-tree-scattered/learn-inputs.pdf}}
 \end{figure}
 \end{frame}
 
 \begin{frame}{Détail algorithme OMP-PALMTREE}
 \begin{figure}\centering
-    \makebox[\linewidth]{\includegraphics[width=1.1\linewidth]{figures/tree-learn-setup/algo-omp-palmtree.pdf}}
+    \makebox[\linewidth]{\includegraphics[width=1.1\linewidth]{figures/3-learn-tree-scattered/algo-omp-palmtree.pdf}}
 \end{figure}
 \end{frame}
 
 \begin{frame}{Problème des supports dispersés}
 \begin{figure}\centering
-    \makebox[\linewidth]{\includegraphics[width=1.1\linewidth]{figures/tree-learn-setup/scattered-tree.pdf}}
+    \makebox[\linewidth]{\includegraphics[width=1.1\linewidth]{figures/3-learn-tree-scattered/scattered-tree.pdf}}
 \end{figure}
 \end{frame}
 
 \begin{frame}{Ajout d'un à priori sur les supports}
 \begin{figure}\centering
-    \makebox[\linewidth]{\includegraphics[width=1.1\linewidth]{figures/tree-learn-setup/scattered-explication.pdf}}
+    \makebox[\linewidth]{\includegraphics[width=1.1\linewidth]{figures/3-learn-tree-scattered/scattered-explication.pdf}}
 \end{figure}
 \end{frame}
 
 
 \begin{frame}{Ajout d'un à priori sur les supports}
 \begin{figure}\centering
-    \makebox[\linewidth]{\includegraphics[width=1.1\linewidth]{figures/tree-learn-setup/scattered-explication.pdf}}
+    \makebox[\linewidth]{\includegraphics[width=1.1\linewidth]{figures/3-learn-tree-scattered/scattered-explication.pdf}}
 \end{figure}
 \end{frame}
 
