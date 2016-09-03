@@ -94,11 +94,11 @@ soit une complexité en $O(N)$.
 
 \begin{frame}{Problème associé}
 On appelle \eqref{eq_ftl} (\emph{Fast Transform Learning}) l'adaptation de \eqref{eq_dl} à ce modèle :
-\begin{equation*} {\small
+\begin{equation*}
 \underset{\substack{(\h^\text{e})_{e \in \E}}}\min
-	\norm{\Beq{\sum_{l \in Feuilles}} \x^{\Beq{l}} * \h^{*\Beq{l}} -\y}{2}^2 \tag{${FTL}$} \label{eq_ftl}
-    }
+	\underbrace{\norm{\Beq{\sum_{l \in Feuilles}} \x^{\Beq{l}} * \h^{*\Beq{l}} -\y}{2}^2}_{\text{Fonction objectif } \alert{E(\h)}} \tag{${FTL}$} \label{eq_ftl}
 \end{equation*}
+avec $\h = (\h^e)_{e \in \E}$.
 L'algorithme \emph{PALMTREE} donne une solution à ce problème :
 \begin{itemize}
 	\item algorithme proximal itérant successivement sur les blocs de variables $\h^e$
@@ -203,6 +203,9 @@ Apprendre les supports à partir de l'image $\y$
 \begin{figure}\centering
     \makebox[\linewidth]{\includegraphics[width=1.1\linewidth]{figures/3-learn-tree-scattered/scattered-tree.pdf}}
 \end{figure}
+\begin{alertblock}{Problème d'identifiabilité des atomes}
+Un atome avec 16 morceaux dispersés \alert{ou} 16 atomes bien séparés ?
+\end{alertblock}
 \end{frame}
 
 \begin{frame}{Ajout d'un à priori sur les supports}
@@ -212,14 +215,44 @@ Apprendre les supports à partir de l'image $\y$
 \end{frame}
 
 
-\begin{frame}{Ajout d'un à priori sur les supports}
+\begin{frame}{À priori $f$}
 \begin{figure}\centering
-    \makebox[\linewidth]{\includegraphics[width=1.1\linewidth]{figures/3-learn-tree-scattered/unscattered.pdf}}
+    \makebox[\linewidth]{\includegraphics[width=0.8\linewidth]{figures/3-learn-tree-scattered/unscattered.pdf}}
+\end{figure}
+\end{frame}
+
+\begin{frame}{Réglage de $\alpha$}
+\begin{itemize}
+\item Nous avons déterminé $\alpha$ au cas par cas
+	\begin{figure}\centering
+	    \makebox[\linewidth]{\includegraphics[width=0.8\linewidth]{figures/3-learn-tree-scattered/alpha.pdf}}
+	\end{figure}
+\item Déterminer $\alpha$ pendant OMP-PALMTREE : méthode SURE \cite{eldar_generalized_2009} ?
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Problème de déséquilibre}
+\begin{itemize}
+\item \alert{Déséquilibre :} 55 éléments au centre, 3 élément sur les feuilles
+	\begin{figure}\centering
+    \makebox[\linewidth]{\includegraphics[width=1\linewidth]{figures/4-learn-tree-unbalanced/unbalanced.pdf}}
+	\end{figure}
+\item Trop d'éléments au centre $\rightarrow$ convolutions lentes (lié à l'implémentation)
+\item Adapter $f(p)$ en fonction de l'arc $e$ ?
+
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}{Modification de la fonction d'à priori $f$}
+\begin{figure}\centering
+    \makebox[\linewidth]{\includegraphics[width=1.1\linewidth]{figures/4-learn-tree-unbalanced/essai.pdf}}
 \end{figure}
 \end{frame}
 
 
-\begin{frame}{En quelques mots...}
+\begin{frame}{}
 \begin{itemize}
 \item PALMTREE (existant) se base sur des arbres de convolutions
 \item Passer des supports fixes (PALMTREE) à des supports appris (OMP-PALMTREE)
