@@ -15,14 +15,16 @@
 \usepackage{relsize}
 \usepackage{booktabs,tabularx}
 \usepackage{pifont} % for using \ding{}
-\newcommand{\cmark}{\ding{51}}% "check" mark
-\newcommand{\xmark}{\ding{55}}% "cross" mark
+
+
+\definecolor{green2}{RGB}{0.0,0.5,0.0}
+\newcommand{\cmark}{\textcolor[rgb]{0.0,0.5,0.0}{\ding{51}}}% "check" mark
+\newcommand{\xmark}{\textcolor{red}{\ding{55}}}% "cross" mark
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{booktabs,tabularx}
 \usepackage{tikz}
 \usetikzlibrary{arrows.meta,shapes.arrows}
-
 
 \usepackage[backend=biber,style=ieee-alphabetic,date=long,maxbibnames=5,language=english]{biblatex}
 \renewcommand{\UrlFont}{\ttfamily}

@@ -24,7 +24,7 @@
 \begin{frame}{La représentation parcimonieuse}
 \begin{itemize}
 \item La représentation parcimonieuse permet de débruiter, décrire, compresser, classifier
-\item Exemple de débruitage en utilisant K-SVD sur l'image bruitée :
+\item Exemple de débruitage en utilisant un dictionnaire de DCT sur une image bruitée :
 	\begin{figure}\centering
 	\makebox[\linewidth]{\includegraphics[width=1.1\linewidth]{figures/0-exple-denoise/exple-denoise.pdf}}
 	\end{figure}
@@ -39,8 +39,8 @@
 	\begin{table}[] \centering
 	\begin{tabular}{@{}lcc@{}} \toprule
 	 & Rapide & Adaptatif \\ \midrule
-	DCT (générique) & \Geq{\cmark} & \Req{\xmark}\\
-	K-SVD (appris) & \Req{\xmark} & \Geq{\cmark} \\ \bottomrule
+	DCT (générique) & \cmark & \xmark\\
+	K-SVD (appris) & \xmark & \cmark \\ \bottomrule
 	\end{tabular}
 	\end{table}
 \end{itemize}
@@ -231,7 +231,7 @@ Un atome avec 16 morceaux dispersés \alert{ou} 16 atomes bien séparés ?
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Problème de déséquilibre}
+\begin{frame}{Problème de déséquilibre avec à priori $f$}
 \begin{itemize}
 \item \alert{Déséquilibre :} 55 éléments au centre, 3 élément sur les feuilles
 	\begin{figure}\centering
@@ -245,18 +245,29 @@ Un atome avec 16 morceaux dispersés \alert{ou} 16 atomes bien séparés ?
 
 
 
-\begin{frame}{Modification de la fonction d'à priori $f$}
+\begin{frame}{Modification de la fonction d'à priori $f$ pour équilibrer}
 \begin{figure}\centering
     \makebox[\linewidth]{\includegraphics[width=1.1\linewidth]{figures/4-learn-tree-unbalanced/essai.pdf}}
 \end{figure}
 \end{frame}
 
 
-\begin{frame}{}
+\begin{frame}{Conclusions}
+Jusqu'ici, nous avons
 \begin{itemize}
-\item PALMTREE (existant) se base sur des arbres de convolutions
-\item Passer des supports fixes (PALMTREE) à des supports appris (OMP-PALMTREE)
-\item ...
+\item[\cmark] Gradient validé pour choisir le meilleur élément à ajouter
+\item[\cmark] Proposition d'un à priori pour apprendre les supports sur un arbre
+\end{itemize}
+Dans le futur proche
+\begin{itemize}
+\item Apprendre $\alpha$ à partir des données
+\item Permettre la suppression d'éléments du support (norme $l_1$ ?)
+\end{itemize}
+Dans le futur plus lointain
+\begin{itemize}
+\item[\textcolor{purple}{\ding{43}}] Apprendre l'arbre (aujourd'hui, arbre fixé à la main)
+\item[\textcolor{purple}{\ding{43}}] Apprendre sur plusieurs images
+\item[\textcolor{purple}{\ding{43}}] Passer à un algorithme d'apprentissage de dictionnaire complet
 \end{itemize}
 \vfill
 \hfill Merci de votre attention
