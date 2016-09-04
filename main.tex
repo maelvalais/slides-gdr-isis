@@ -32,6 +32,7 @@
 \end{frame}
 
 
+\subsection{Dictionnaires}
 \begin{frame}{Les dictionnaires}
 \begin{itemize}
 \item Un dictionnaire peut permettre de représenter parcimonieusement
@@ -50,16 +51,18 @@
 Problème d'apprentissage de dictionnaire \eqref{eq_dl} pour apprendre un dictionnaire parcimonieux :
 \begin{align} 
 \underset{\D,\x}{\min}~ & \| \x \|_1 + \lambda \| \Beq{\D\x}-\y \|^2_2 \tag{$DL$}\label{eq_dl} \\
-\text{s.t.}~ & \| \d_k \| \le \gamma & \forall k = 1,\dots,K\label{eq_dl_finite_norm} \notag
+\text{s.t.}~ & \| \d_k \| \le \gamma & \forall k = 1,\dots,N|\L| \label{eq_dl_finite_norm} \notag
 \end{align}
+ avec $\y \in \R^N$ l'image sur laquelle on apprend, $\x \in \R^{N \times |\L|}$ le code, $|\L|$ et $|\E|$ les nombres de feuilles et d'arcs, et $\D$ la matrice de $N|\L| \times N$.
 \begin{description}
-	\item[Problème] Coût élevé de $\D\x$ : $O(N^2)$
+	\item[Problème] \alert{Coût élevé} de $\D\x$ : $O(N^2)$
 	\item[Solution] Réduire la taille des images en entrée (patches dans KSVD)
 	\item[Défaut] Les atomes ne peuvent pas représenter de grandes formes
 \end{description}
 \end{frame}
 
 
+\subsection{Motivations}
 \begin{frame}{Motivations générales}
 	\begin{itemize}
 		\item développer une \alert{transformée rapide} adaptée aux grands atomes
@@ -76,8 +79,7 @@ Problème d'apprentissage de dictionnaire \eqref{eq_dl} pour apprendre un dictio
 \section{Existant}
 
 
-
-
+\subsection{Modèle d'arbre de convolutions}
 
 
 \begin{frame}{Le modèle d'arbres de convolutions}
@@ -88,17 +90,17 @@ Ainsi, le produit $\D\x$ est réduit à
 \begin{equation} 
 \D \x = \Beq{\sum_{l \in ~\text{Feuilles}}} \x^{\Beq{l}} * \underbrace{\h^{\Beq{l}}* \dots* \h^{r}}_{\textrm{de la racine à la feuille}}
 \end{equation}
-soit une complexité en $O(N)$.
+soit une complexité en \alert{$O(NQ)$} au lieu de $O(N^2)$ ($Q$ est le nombre total d'éléments des supports $\s^e$ associés à chaque noyau $\h^e$)
 \end{frame}
  
 
 \begin{frame}{Problème associé}
 On appelle \eqref{eq_ftl} (\emph{Fast Transform Learning}) l'adaptation de \eqref{eq_dl} à ce modèle :
 \begin{equation*}
-\underset{\substack{(\h^\text{e})_{e \in \E}}}\min
+\min_{\substack{(\h^e)_{e \in \E} \\ \h^e \in \D^e}}
 	\underbrace{\norm{\Beq{\sum_{l \in Feuilles}} \x^{\Beq{l}} * \h^{*\Beq{l}} -\y}{2}^2}_{\text{Fonction objectif } \alert{E(\h)}} \tag{${FTL}$} \label{eq_ftl}
 \end{equation*}
-avec $\h = (\h^e)_{e \in \E}$.
+avec $\D^e$ la contrainte sur les supports.
 L'algorithme \emph{PALMTREE} donne une solution à ce problème :
 \begin{itemize}
 	\item algorithme proximal itérant successivement sur les blocs de variables $\h^e$
@@ -106,7 +108,7 @@ L'algorithme \emph{PALMTREE} donne une solution à ce problème :
 \end{itemize}
 \end{frame}
 
-
+\subsection{L'algorithme PALMTREE}
 \begin{frame}{Exemple de solution de PALMTREE}
 \textbf{Entrées :} \begin{itemize}
 	\item image $\y$,
@@ -120,13 +122,14 @@ L'algorithme \emph{PALMTREE} donne une solution à ce problème :
 
 
 \begin{frame}{Exemple de solution de PALMTREE}
-\textbf{Sortie :} les noyaux $\h$
+\textbf{Sortie :} les noyaux $\h$ (on note $\h = (\h^e)_{e \in \E}$)
 \begin{figure}\centering
 \makebox[\linewidth]{\includegraphics[width=1\linewidth]{figures/1-intro-tree/intro-outputs.pdf}}
 \end{figure}
 \end{frame}
 
 
+\subsection{Objectifs du stage}
 \begin{frame}{Objectifs du stage}
 \begin{alertblock}{Inconvénients de PALMTREE}
 \begin{itemize}
@@ -147,8 +150,9 @@ Apprendre les supports à partir de l'image $\y$
 
 \section{Travail réalisé}
 
+\subsection{Idée directrice inspirée de l'OMP}
 \begin{frame}{L'idée}
-\begin{block}{Algorithme OMP}
+\begin{block}{Algorithme OMP (Orthogonal Matching Pursuit)}
 	\begin{enumerate}
 		\item \textbf{Chercher} meilleur élément à ajouter au support
 		\item Ajouter l'élément
@@ -168,10 +172,12 @@ Apprendre les supports à partir de l'image $\y$
 \end{exampleblock}
 \end{frame}
 
-\subsection{Gradient convenable pour ajouter le meilleur élément possible ?}
-\begin{frame}{Explications de l'expérience}
+
+\subsection{Gradient convenable pour ajouter des élément ?}
+
+\begin{frame}{Explications des expériences sur le gradient}
 \begin{figure}\centering
-    \makebox[\linewidth]{\includegraphics[width=1.2\linewidth]{figures/2-check-gradient/branche-setup.pdf}}
+    \makebox[\linewidth]{\includegraphics[width=1.1\linewidth]{figures/2-check-gradient/branche-setup.pdf}}
 \end{figure}
 \end{frame}
 
@@ -181,13 +187,15 @@ Apprendre les supports à partir de l'image $\y$
 \end{figure}
 \end{frame}
 
-\begin{frame}{Après ajout}
+\begin{frame}{Résultats après ajout}
 \begin{figure}\centering
     \makebox[\linewidth]{\includegraphics[width=1.0\linewidth]{figures/2-check-gradient/apres-ajout.pdf}}
 \end{figure}
 \end{frame}
 
-\begin{frame}{Explication expériences sur un arbre}
+\subsection{Ça fonctionne sur un arbre ?}
+
+\begin{frame}{Explication des expériences sur un arbre}
 \begin{figure}\centering
     \makebox[\linewidth]{\includegraphics[width=1.0\linewidth]{figures/3-learn-tree-scattered/learn-inputs.pdf}}
 \end{figure}
