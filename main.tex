@@ -23,11 +23,11 @@
 
 \begin{frame}{La représentation parcimonieuse}
 \begin{itemize}
-\item La représentation parcimonieuse permet de débruiter, décrire, compresser, classifier
-\item Exemple de débruitage en utilisant un dictionnaire de DCT sur une image bruitée :
+\item Exemple d'application de la représentation parcimonieuse : \alert{débruitage} en utilisant un dictionnaire de DCT sur une image bruitée
 	\begin{figure}\centering
 	\makebox[\linewidth]{\includegraphics[width=1.1\linewidth]{figures/0-exple-denoise/exple-denoise.pdf}}
 	\end{figure}
+\item Représentation parcimonieuse permet aussi la \alert{reconnaissance d'images}, la \alert{compression}
 \end{itemize}
 \end{frame}
 
@@ -35,8 +35,9 @@
 \subsection{Dictionnaires}
 \begin{frame}{Les dictionnaires}
 \begin{itemize}
-\item Un dictionnaire peut permettre de représenter parcimonieusement
-\item Deux grands types de dictionnaires : générique et appris
+\item Dictionnaire = opérateur, transformée 
+\item Permet de représenter parcimonieusement
+\item Deux grands types de dictionnaires : \alert{générique} et \alert{appris}
 	\begin{table}[] \centering
 	\begin{tabular}{@{}lcc@{}} \toprule
 	 & Rapide & Adaptatif \\ \midrule
@@ -76,7 +77,7 @@ Problème d'apprentissage de dictionnaire \eqref{eq_dl} pour apprendre un dictio
 
 
 
-\section{Existant}
+\section{État de l'art}
 
 
 \subsection{Modèle d'arbre de convolutions}
@@ -104,7 +105,7 @@ avec $\Dspace^e$ la contrainte sur les supports.
 
 L'algorithme \alert{PALMTREE} donne une solution approchée :
 \begin{itemize}
-	\item algorithme proximal itérant successivement sur les blocs de variables $\h^e$
+	\item minimisation proximale alternée (PALM)
 	\item \cite{chabiron_optimization_2016} a montré que le point  critique atteint n'est pas trop éloigné du minimum global
 \end{itemize}
 \end{frame}
@@ -155,16 +156,11 @@ Apprendre les supports à partir de l'image $\y$
 \begin{frame}{L'idée}
 \begin{block}{Algorithme OMP (Orthogonal Matching Pursuit)}
 	\begin{enumerate}
-		\item \textbf{Chercher} meilleur élément à ajouter au support
-		\item Ajouter l'élément
-		\item \textbf{Projeter} orthogonalement pour prendre en compte l'ajout
-		\item Recommencer jusqu'à ce que le support soit assez grand
+		\item \textbf{Chercher} élément à ajouter au support $\rightarrow$ \alert{gradient $\nabla E(\H)$}
+		\item \textbf{Projeter} pour prendre en compte l'ajout $\rightarrow$ \alert{PALMTREE}
+		\item Recommencer
 	\end{enumerate}
 \end{block}
-\begin{itemize}
-\item \textbf{Pour chercher :} direction de plus forte descente (gradient)
-\item \textbf{Pour projeter :} utiliser PALMTREE
-\end{itemize}
 \begin{exampleblock}{Questionnements}
 \begin{itemize}
 	\item Gradient convenable pour ajouter le meilleur élément possible ?
