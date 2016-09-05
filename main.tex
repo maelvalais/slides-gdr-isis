@@ -97,11 +97,12 @@ soit une complexité en \alert{$O(NQ)$} au lieu de $O(N^2)$ ($Q$ est le nombre t
 \begin{frame}{Problème associé}
 On appelle \eqref{eq_ftl} (\emph{Fast Transform Learning}) l'adaptation de \eqref{eq_dl} à ce modèle :
 \begin{equation*}
-\min_{\substack{(\h^e)_{e \in \E} \\ \h^e \in \D^e}}
+\min_{\substack{(\h^e)_{e \in \E} \\ \h^e \in \Dspace^e}}
 	\underbrace{\norm{\Beq{\sum_{l \in Feuilles}} \x^{\Beq{l}} * \h^{*\Beq{l}} -\y}{2}^2}_{\text{Fonction objectif } \alert{E(\h)}} \tag{${FTL}$} \label{eq_ftl}
 \end{equation*}
-avec $\D^e$ la contrainte sur les supports.
-L'algorithme \emph{PALMTREE} donne une solution à ce problème :
+avec $\Dspace^e$ la contrainte sur les supports.
+
+L'algorithme \alert{PALMTREE} donne une solution approchée :
 \begin{itemize}
 	\item algorithme proximal itérant successivement sur les blocs de variables $\h^e$
 	\item \cite{chabiron_optimization_2016} a montré que le point  critique atteint n'est pas trop éloigné du minimum global
@@ -138,7 +139,7 @@ L'algorithme \emph{PALMTREE} donne une solution à ce problème :
 \end{itemize}
 \end{alertblock}
 \begin{figure}\centering
-    \makebox[\linewidth]{\includegraphics[width=0.9\linewidth]{figures/meilleur-atome.pdf}}
+    \makebox[\linewidth]{\includegraphics[width=0.9\linewidth]{figures/meilleur-support.pdf}}
 \end{figure}
 \begin{exampleblock}{Objectifs du stage}
 Apprendre les supports à partir de l'image $\y$
