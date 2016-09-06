@@ -51,24 +51,28 @@
 \begin{frame}{Problème du coût de Dx}
 Problème d'apprentissage de dictionnaire \eqref{eq_dl} pour apprendre un dictionnaire parcimonieux :
 \begin{align} 
-\underset{\D,\x}{\min}~ & \| \x \|_1 + \lambda \| \Beq{\D\x}-\y \|^2_2 \tag{$DL$}\label{eq_dl} \\
-\text{s.t.}~ & \| \d_k \| \le \gamma & \forall k = 1,\dots,N|\L| \label{eq_dl_finite_norm} \notag
+\underset{\D,\x}{\min}~ & \| \x \|_1 + \lambda \| \alert{\D\x}-\y \|^2_2 \tag{$DL$}\label{eq_dl} \\
+\text{s.t.}~ & \| \d_k \| \le \gamma & \forall k = 1,\dots,K \label{eq_dl_finite_norm} \notag
 \end{align}
- avec $\y \in \R^N$ l'image sur laquelle on apprend, $\x \in \R^{N \times |\L|}$ le code, $|\L|$ et $|\E|$ les nombres de feuilles et d'arcs, et $\D$ la matrice de $N|\L| \times N$.
-\begin{description}
-	\item[Problème] \alert{Coût élevé} de $\D\x$ : $O(N^2)$
-	\item[Solution] Réduire la taille des images en entrée (patches dans KSVD)
-	\item[Défaut] Les atomes ne peuvent pas représenter de grandes formes
-\end{description}
+ avec $\y \in \R^N$ l'image sur laquelle on apprend, $\x \in \R^{K}$ le code, $\D$ la matrice $K \times N$.
+
+\begin{alertblock}{Problème du coût de $\D\x$}
+Coût élevé de $\D\x$ : \alert{$O(KN)$} ($K \gg N$)
+\end{alertblock}
 \end{frame}
 
 
 \subsection{Motivations}
 \begin{frame}{Motivations générales}
-	\begin{itemize}
-		\item développer une \alert{transformée rapide} adaptée aux grands atomes
-		\item effectuer l'apprentissage \alert{directement sur l'image} au lieu des patches
-	\end{itemize}
+\begin{block}{Solution intermédiaire}
+Limiter la taille des images ($\rightarrow$ \alert{patches})
+\end{block}
+\begin{itemize}
+\item[\xmark] Mais on ne peut pas représenter de \alert{grandes formes}
+\end{itemize}
+\begin{exampleblock}{Motivations générales}
+Développer un dictionnaire \alert{appris} et \alert{rapide} adaptée aux grands atomes
+\end{exampleblock}
 \end{frame}
 
 
@@ -91,7 +95,8 @@ Ainsi, le produit $\D\x$ est réduit à
 \begin{equation} 
 \D \x = \Beq{\sum_{l \in ~\text{Feuilles}}} \x^{\Beq{l}} * \underbrace{\h^{\Beq{l}}* \dots* \h^{r}}_{\textrm{de la racine à la feuille}}
 \end{equation}
-soit une complexité en \alert{$O(NQ)$} au lieu de $O(N^2)$ ($Q$ est le nombre total d'éléments des supports $\s^e$ associés à chaque noyau $\h^e$)
+soit une complexité en \alert{$O(NQ)$} au lieu de $O(N^2)$ ($Q \ll N$) \\
+{\small Q est le nombre total d'éléments des supports $\s^e$}
 \end{frame}
  
 
@@ -105,14 +110,15 @@ avec $\Dspace^e$ la contrainte sur les supports.
 
 L'algorithme \alert{PALMTREE} donne une solution approchée :
 \begin{itemize}
-	\item minimisation proximale alternée (PALM)
-	\item \cite{chabiron_optimization_2016} a montré que le point  critique atteint n'est pas trop éloigné du minimum global
+	\item \cite{bolte_proximal_2014} : PALM (descente de gradient proximal alterné)
+	\item \cite{chabiron_toward_2015} : \eqref{eq_ftl} vérifie les hypothèse de convergence pour PALM
+	\item \cite{chabiron_optimization_2016} : le point  critique atteint n'est pas trop éloigné du minimum global
 \end{itemize}
 \end{frame}
 
 \subsection{L'algorithme PALMTREE}
 \begin{frame}{Exemple de solution de PALMTREE}
-\textbf{Entrées :} \begin{itemize}
+\textbf{Données en entrée de PALMTREE} \begin{itemize}
 	\item image $\y$,
 	\item code $\x$ (un code $\x^l \in \R^N$ par feuille)
 	\item supports $\s^e$, arbre $\T$
@@ -124,9 +130,12 @@ L'algorithme \alert{PALMTREE} donne une solution approchée :
 
 
 \begin{frame}{Exemple de solution de PALMTREE}
-\textbf{Sortie :} les noyaux $\h$ (on note $\h = (\h^e)_{e \in \E}$)
+\textbf{Données en sortie de PALMTREE} 
+\begin{itemize}
+	\item les noyaux $\h$ (on note $\h = (\h^e)_{e \in \E}$)
+\end{itemize}
 \begin{figure}\centering
-\makebox[\linewidth]{\includegraphics[width=1\linewidth]{figures/1-intro-tree/intro-outputs.pdf}}
+\makebox[\linewidth]{\includegraphics[width=1.1\linewidth]{figures/1-intro-tree/intro-outputs.pdf}}
 \end{figure}
 \end{frame}
 
@@ -136,11 +145,10 @@ L'algorithme \alert{PALMTREE} donne une solution approchée :
 \begin{alertblock}{Inconvénients de PALMTREE}
 \begin{itemize}
 \item Supports fixes = perte d'adaptabilité
-\item Arbre fixe
 \end{itemize}
 \end{alertblock}
 \begin{figure}\centering
-    \makebox[\linewidth]{\includegraphics[width=0.9\linewidth]{figures/meilleur-support.pdf}}
+    \makebox[\linewidth]{\includegraphics[width=1\linewidth]{figures/meilleur-support.pdf}}
 \end{figure}
 \begin{exampleblock}{Objectifs du stage}
 Apprendre les supports à partir de l'image $\y$
@@ -163,18 +171,19 @@ Apprendre les supports à partir de l'image $\y$
 \end{block}
 \begin{exampleblock}{Questionnements}
 \begin{itemize}
-	\item Gradient convenable pour ajouter le meilleur élément possible ?
+	\item Gradient adapté pour ajouter le meilleur élément possible ?
 	\item Cet algorithme fonctionne t-il dans le cadre d'un arbre ?
 \end{itemize}
 \end{exampleblock}
 \end{frame}
 
 
-\subsection{Gradient convenable pour ajouter des élément ?}
+\subsection{Gradient adapté pour ajouter des éléments ?}
 
 \begin{frame}{Explications des expériences sur le gradient}
+\alert{Données en entrée} de PALMTREE pour les expériences sur le gradient
 \begin{figure}\centering
-    \makebox[\linewidth]{\includegraphics[width=1.1\linewidth]{figures/2-check-gradient/branche-setup.pdf}}
+    \makebox[\linewidth]{\includegraphics[width=1\linewidth]{figures/2-check-gradient/branche-setup.pdf}}
 \end{figure}
 \end{frame}
 
@@ -193,7 +202,7 @@ Apprendre les supports à partir de l'image $\y$
 \subsection{Ça fonctionne sur un arbre ?}
 
 \begin{frame}{Explication des expériences sur un arbre}
-Données en \alert{entrée} pour les expériences suivantes :
+\alert{Données en entrée} pour les expériences sur les arbres
 \begin{figure}\centering
     \makebox[\linewidth]{\includegraphics[width=1.0\linewidth]{figures/3-learn-tree-scattered/learn-inputs.pdf}}
 \end{figure}
@@ -259,19 +268,21 @@ Un atome avec 16 morceaux dispersés \alert{ou} 16 atomes bien séparés ?
 
 
 \begin{frame}{Conclusions}
-Jusqu'ici, nous avons
+
 \begin{itemize}
-\item[\cmark] Gradient validé pour choisir le meilleur élément à ajouter
-\item[\cmark] Proposition d'un à priori pour apprendre les supports sur un arbre
+\item[\cmark] \textbf{Verrou levé :} bon algorithme PALMTREE mais supports \alert{fixes} \\
+	$\rightarrow$ \alert{estimation} des supports avec OMP-PALMTREE
+
 \end{itemize}
-Dans le futur proche
+Prochainement
 \begin{itemize}
-\item Apprendre $\alpha$ à partir des données
-\item Permettre la suppression d'éléments du support (norme $l_1$ ?)
+\item Estimer $\alpha$ à partir des données
+\item Permettre la suppression d'éléments
+\item Apprendre l'arbre
+
 \end{itemize}
-Dans le futur plus lointain
+Pistes lointaines
 \begin{itemize}
-\item[\textcolor{purple}{\ding{43}}] Apprendre l'arbre (aujourd'hui, arbre fixé à la main)
 \item[\textcolor{purple}{\ding{43}}] Apprendre sur plusieurs images
 \item[\textcolor{purple}{\ding{43}}] Passer à un algorithme d'apprentissage de dictionnaire complet
 \end{itemize}
