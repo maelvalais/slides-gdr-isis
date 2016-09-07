@@ -46,3 +46,13 @@
 		\tableofcontents[currentsection, hideothersubsections]
 \end{frame}
 }
+
+% To suppress the page numbering of References at the end
+\newcommand{\backupbegin}{
+   \newcounter{framenumberappendix}
+   \setcounter{framenumberappendix}{\value{framenumber}}
+}
+\newcommand{\backupend}{
+   \addtocounter{framenumberappendix}{-\value{framenumber}}
+   \addtocounter{framenumber}{\value{framenumberappendix}} 
+}

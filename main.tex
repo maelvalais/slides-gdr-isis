@@ -3,49 +3,58 @@
 
 
 
-\title{Optimisation de dictionnaires structurés en arbres de convolutions pour la représentation parcimonieuse d'images}
-\subtitle{Stage encadré par\\François Malgouyres (IMT), Jean-Yves Tourneret (IRIT-ENSEEIHT) et Herwig Wendt (CNRS-ENSEEIHT)}
+\title{Optimisation de dictionnaires structurés en arbres de convolutions}
+\subtitle{pour la représentation parcimonieuse d'images}
 
 
-
-\date{Soutenance de stage du 8 septembre 2016}
 \author{Maël Valais}
-\institute{Université Toulouse III - Paul Sabatier}
+\institute{Collaboration IMT et IRIT-ENSEEIHT\\
+	\vspace{0.2cm}
+	Encadré par\\
+	François Malgouyres (IMT)\\
+	Jean-Yves Tourneret (IRIT-ENSEEIHT)\\
+	Herwig Wendt (CNRS-ENSEEIHT)
+}
+\date{Soutenance de stage du 8 septembre 2016}
+
+
 
 \begin{document}
 
 \maketitle
 
-
 \section{Introduction}
 \subsection{La représentation parcimonieuse}
 
-
 \begin{frame}{La représentation parcimonieuse}
+Représenter parcimonieusement = trouver une représentation d'une image avec un maximum de \alert{coefficients à zéro}
+\begin{figure}\centering
+\makebox[\linewidth]{\includegraphics[width=0.8\linewidth]{figures/0-intro-parcimonie/representation-parcimonieuse.pdf}}
+\end{figure}
+\end{frame}
+
+\begin{frame}{Exemples d'application des représentations parcimonieuses}
 \begin{itemize}
-\item Exemple d'application de la représentation parcimonieuse : \alert{débruitage} en utilisant un dictionnaire de DCT sur une image bruitée
+\item \alert{Débruitage}
 	\begin{figure}\centering
-	\makebox[\linewidth]{\includegraphics[width=1.1\linewidth]{figures/0-exple-denoise/exple-denoise.pdf}}
+	\makebox[\linewidth]{\includegraphics[width=1.1\linewidth]{figures/0-intro-parcimonie/exple-denoise.pdf}}
 	\end{figure}
-\item Représentation parcimonieuse permet aussi la \alert{reconnaissance d'images}, la \alert{compression}
+\item \alert{reconnaissance d'images}
+\item \alert{compression}
 \end{itemize}
 \end{frame}
 
 
 \subsection{Dictionnaires}
 \begin{frame}{Les dictionnaires}
-\begin{itemize}
-\item Dictionnaire = opérateur, transformée 
-\item Permet de représenter parcimonieusement
-\item Deux grands types de dictionnaires : \alert{générique} et \alert{appris}
-	\begin{table}[] \centering
-	\begin{tabular}{@{}lcc@{}} \toprule
-	 & Rapide & Adaptatif \\ \midrule
-	DCT (générique) & \cmark & \xmark\\
-	K-SVD (appris) & \xmark & \cmark \\ \bottomrule
-	\end{tabular}
-	\end{table}
-\end{itemize}
+Deux grands types de dictionnaires : \alert{générique} et \alert{appris}
+\begin{table}[] \centering
+\begin{tabular}{@{}lcc@{}} \toprule
+ & Rapide & Adaptatif \\ \midrule
+DCT (générique) & \cmark & \xmark\\
+K-SVD (appris) & \xmark & \cmark \\ \bottomrule
+\end{tabular}
+\end{table}
 \end{frame}
 
 \begin{frame}{Problème du coût de Dx}
@@ -65,11 +74,14 @@ Coût élevé de $\D\x$ : \alert{$O(KN)$} ($K \gg N$)
 \subsection{Motivations}
 \begin{frame}{Motivations générales}
 \begin{block}{Solution intermédiaire}
-Limiter la taille des images ($\rightarrow$ \alert{patches})
+Limiter la taille des images $\rightarrow$ \alert{patches} (K-SVD)
 \end{block}
 \begin{itemize}
 \item[\xmark] Mais on ne peut pas représenter de \alert{grandes formes}
 \end{itemize}
+\begin{figure}\centering
+\makebox[\linewidth]{\includegraphics[width=0.5\linewidth]{figures/0-intro-parcimonie/lettre.pdf}}
+\end{figure}
 \begin{exampleblock}{Motivations générales}
 Développer un dictionnaire \alert{appris} et \alert{rapide} adaptée aux grands atomes
 \end{exampleblock}
@@ -89,7 +101,7 @@ Développer un dictionnaire \alert{appris} et \alert{rapide} adaptée aux grands
 
 \begin{frame}{Le modèle d'arbres de convolutions}
 \begin{figure}\centering
-\makebox[\linewidth]{\includegraphics[width=1.1\linewidth]{figures/tree.pdf}}
+\makebox[\linewidth]{\includegraphics[width=1.1\linewidth]{figures/1-intro-modele/tree.pdf}}
 \end{figure}
 Ainsi, le produit $\D\x$ est réduit à
 \begin{equation} 
@@ -101,16 +113,29 @@ soit une complexité en \alert{$O(NQ)$} au lieu de $O(N^2)$ ($Q \ll N$) \\
  
 
 \begin{frame}{Problème associé}
-On appelle \eqref{eq_ftl} (\emph{Fast Transform Learning}) l'adaptation de \eqref{eq_dl} à ce modèle :
+On appelle (${FTL}$) (\emph{Fast Transform Learning}) l'adaptation de \eqref{eq_dl} à ce modèle :
+
+\begin{columns}
+	
+
+\begin{column}{0.7\linewidth}
 \begin{equation*}
-\min_{\substack{(\h^e)_{e \in \E} \\ \h^e \in \Dspace^e}}
-	\underbrace{\norm{\Beq{\sum_{l \in Feuilles}} \x^{\Beq{l}} * \h^{*\Beq{l}} -\y}{2}^2}_{\text{Fonction objectif } \alert{E(\h)}} \tag{${FTL}$} \label{eq_ftl}
+\tag{${FTL}$} \min_{\substack{(\h^e)_{e \in \E} \\ \h^e \in \Dspace^e}}
+	\underbrace{\norm{\Beq{\sum_{l \in Feuilles}} \x^{\Beq{l}} * \h^{*\Beq{l}} -\y}{2}^2}_{\text{Fonction objectif } \alert{E(\h)}}  \label{eq_ftl} \notag
 \end{equation*}
-avec $\Dspace^e$ la contrainte sur les supports.
+\end{column}
+\begin{column}{0.3\linewidth}
+\begin{itemize}
+	\item[\xmark] non-convexe
+	\item[\cmark] mais convexe marginalement
+\end{itemize}
+\end{column}
+\end{columns}
+avec $\Dspace^e$ la contrainte sur les supports des noyaux $\h^e$.
 
 L'algorithme \alert{PALMTREE} donne une solution approchée :
 \begin{itemize}
-	\item \cite{bolte_proximal_2014} : PALM (descente de gradient proximal alterné)
+	\item \cite{bolte_proximal_2014} : Basé sur PALM (descente de gradient proximal alterné)
 	\item \cite{chabiron_toward_2015} : \eqref{eq_ftl} vérifie les hypothèse de convergence pour PALM
 	\item \cite{chabiron_optimization_2016} : le point  critique atteint n'est pas trop éloigné du minimum global
 \end{itemize}
@@ -118,40 +143,41 @@ L'algorithme \alert{PALMTREE} donne une solution approchée :
 
 \subsection{L'algorithme PALMTREE}
 \begin{frame}{Exemple de solution de PALMTREE}
-\textbf{Données en entrée de PALMTREE} \begin{itemize}
+Données en entrée de PALMTREE
+\begin{itemize}
 	\item image $\y$,
-	\item code $\x$ (un code $\x^l \in \R^N$ par feuille)
+	\item code $\x$ \alert{fixé} (un code $\x^l \in \R^N$ par feuille)
 	\item supports $\s^e$, arbre $\T$
 \end{itemize}
 \begin{figure}\centering
-\makebox[\linewidth]{\includegraphics[width=1.1\linewidth]{figures/1-intro-tree/intro-inputs.pdf}}
+\makebox[\linewidth]{\includegraphics[width=1.1\linewidth]{figures/1-intro-modele/intro-inputs.pdf}}
 \end{figure}
 \end{frame}
 
 
 \begin{frame}{Exemple de solution de PALMTREE}
-\textbf{Données en sortie de PALMTREE} 
+Données en sortie de PALMTREE
 \begin{itemize}
-	\item les noyaux $\h$ (on note $\h = (\h^e)_{e \in \E}$)
+	\item les \alert{noyaux} $\h$ (on note $\h = (\h^e)_{e \in \E}$)
 \end{itemize}
 \begin{figure}\centering
-\makebox[\linewidth]{\includegraphics[width=1.1\linewidth]{figures/1-intro-tree/intro-outputs.pdf}}
+\makebox[\linewidth]{\includegraphics[width=1.1\linewidth]{figures/1-intro-modele/intro-outputs.pdf}}
 \end{figure}
 \end{frame}
 
 
 \subsection{Objectifs du stage}
 \begin{frame}{Objectifs du stage}
-\begin{alertblock}{Inconvénients de PALMTREE}
+\begin{figure}\centering
+    \makebox[\linewidth]{\includegraphics[width=1\linewidth]{figures/0-intro-parcimonie/meilleur-support.pdf}}
+\end{figure}
+\begin{alertblock}{Inconvénients de PALMTREE}\centering
 \begin{itemize}
-\item Supports fixes = perte d'adaptabilité
+\item Supports des noyaux \alert{fixes} $\rightarrow$ perte d'adaptabilité
 \end{itemize}
 \end{alertblock}
-\begin{figure}\centering
-    \makebox[\linewidth]{\includegraphics[width=1\linewidth]{figures/meilleur-support.pdf}}
-\end{figure}
-\begin{exampleblock}{Objectifs du stage}
-Apprendre les supports à partir de l'image $\y$
+\begin{exampleblock}{Objectifs du stage} \centering
+Estimer les supports des noyaux à partir de l'image $\y$
 \end{exampleblock}
 \end{frame}
 
@@ -165,15 +191,15 @@ Apprendre les supports à partir de l'image $\y$
 \begin{block}{Algorithme OMP (Orthogonal Matching Pursuit)}
 	\begin{enumerate}
 		\item \textbf{Chercher} élément à ajouter au support $\rightarrow$ \alert{gradient $\nabla E(\H)$}
-		\item \textbf{Projeter} pour prendre en compte l'ajout $\rightarrow$ \alert{PALMTREE}
+		\item \textbf{Recalculer} les noyaux $\rightarrow$ \alert{PALMTREE}
 		\item Recommencer
 	\end{enumerate}
 \end{block}
-\begin{exampleblock}{Questionnements}
-\begin{itemize}
+\begin{exampleblock}{Questions}
+\begin{enumerate}
 	\item Gradient adapté pour ajouter le meilleur élément possible ?
 	\item Cet algorithme fonctionne t-il dans le cadre d'un arbre ?
-\end{itemize}
+\end{enumerate}
 \end{exampleblock}
 \end{frame}
 
@@ -218,8 +244,8 @@ Apprendre les supports à partir de l'image $\y$
 \begin{figure}\centering
     \makebox[\linewidth]{\includegraphics[width=1.1\linewidth]{figures/3-learn-tree-scattered/scattered-tree.pdf}}
 \end{figure}
-\begin{alertblock}{Problème d'identifiabilité des atomes}
-Un atome avec 16 morceaux dispersés \alert{ou} 16 atomes bien séparés ?
+\begin{alertblock}{Problème d'identifiabilité des atomes}\centering
+16 \alert{grands} atomes interdépendants \textbf{ou} 16 \alert{petits} atomes bien localisés ?
 \end{alertblock}
 \end{frame}
 
@@ -227,6 +253,9 @@ Un atome avec 16 morceaux dispersés \alert{ou} 16 atomes bien séparés ?
 \begin{figure}\centering
     \makebox[\linewidth]{\includegraphics[width=1.1\linewidth]{figures/3-learn-tree-scattered/scattered-explication.pdf}}
 \end{figure}
+\begin{exampleblock}{} \centering 
+Hyper-paramètre \alert{$\alpha$} à déterminer ?
+\end{exampleblock}
 \end{frame}
 
 
@@ -284,7 +313,7 @@ Prochainement
 Pistes lointaines
 \begin{itemize}
 \item[\textcolor{purple}{\ding{43}}] Apprendre sur plusieurs images
-\item[\textcolor{purple}{\ding{43}}] Passer à un algorithme d'apprentissage de dictionnaire complet
+\item[\textcolor{purple}{\ding{43}}] Passer à un algorithme minimisant à la fois $\D$ et $\x$
 \end{itemize}
 \vfill
 \hfill Merci de votre attention
@@ -292,11 +321,13 @@ Pistes lointaines
 
 \appendix
 
-\begin{frame}[allowframebreaks,noframenumbering]
+\backupbegin
+\begin{frame}[allowframebreaks]
 \frametitle{Bibliographie}
 %\nocite{}
 \printbibliography[heading=none]
 \end{frame}
+\backupend
 
 
 \end{document}
