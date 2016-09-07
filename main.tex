@@ -33,40 +33,65 @@ Représenter parcimonieusement = trouver une représentation d'une image avec un
 \end{figure}
 \end{frame}
 
+
 \begin{frame}{Exemples d'application des représentations parcimonieuses}
 \begin{itemize}
-\item \alert{Débruitage}
+\item Débruitage
 	\begin{figure}\centering
 	\makebox[\linewidth]{\includegraphics[width=1.1\linewidth]{figures/0-intro-parcimonie/exple-denoise.pdf}}
 	\end{figure}
-\item \alert{reconnaissance d'images}
-\item \alert{compression}
+\item Reconnaissance d'images
+\item Compression
 \end{itemize}
 \end{frame}
 
 
-\subsection{Dictionnaires}
-\begin{frame}{Les dictionnaires}
-Deux grands types de dictionnaires : \alert{générique} et \alert{appris}
-\begin{table}[] \centering
-\begin{tabular}{@{}lcc@{}} \toprule
- & Rapide & Adaptatif \\ \midrule
-DCT (générique) & \cmark & \xmark\\
-K-SVD (appris) & \xmark & \cmark \\ \bottomrule
-\end{tabular}
-\end{table}
+\subsection{Les dictionnaires pour la parcimonie}
+\begin{frame}{Les dictionnaires pour la parcimonie}
+\vskip-4em
+\begin{figure}\centering
+\makebox[\linewidth]{\includegraphics[width=1\linewidth]{figures/1-intro-modele/sparsity-matrix.pdf}}
+\end{figure}
+\vskip-1em
+\begin{columns}[t]
+\begin{column}{0.49\textwidth}
+	\begin{block}{}
+	Choisir un dictionnaire \alert{générique}\\
+	(ondelettes, curvelets, ...)
+	\begin{itemize}
+	\item[\textcolor{green2}{\cmark}] transformée rapide
+	\item[\textcolor{red}{\xmark}] parcimonie moyenne
+	\end{itemize}
+	\end{block}
+\end{column}
+\begin{column}{0.49\textwidth}
+	\begin{block}{}
+	\alert{Apprendre} le dictionnaire\\
+	à partir des données
+	\begin{itemize}
+	\item[\textcolor{red}{\xmark}] pas de transformée rapide
+	\item[\textcolor{green2}{\cmark}] parcimonie forte
+	\end{itemize}
+	\end{block}
+	\begin{tightcenter}
+		$\uparrow$\\
+		Notre objet d'étude
+	\end{tightcenter}
+\end{column}
+\end{columns}
+
+
 \end{frame}
 
 \begin{frame}{Problème du coût de Dx}
 Problème d'apprentissage de dictionnaire \eqref{eq_dl} pour apprendre un dictionnaire parcimonieux :
 \begin{align} 
 \underset{\D,\x}{\min}~ & \| \x \|_1 + \lambda \| \alert{\D\x}-\y \|^2_2 \tag{$DL$}\label{eq_dl} \\
-\text{s.t.}~ & \| \d_k \| \le \gamma & \forall k = 1,\dots,K \label{eq_dl_finite_norm} \notag
 \end{align}
  avec $\y \in \R^N$ l'image sur laquelle on apprend, $\x \in \R^{K}$ le code, $\D$ la matrice $K \times N$.
 
-\begin{alertblock}{Problème du coût de $\D\x$}
-Coût élevé de $\D\x$ : \alert{$O(KN)$} ($K \gg N$)
+\begin{alertblock}{}
+Problème : Coût élevé de \alert{$\D\x$} qui est en \alert{$O(KN)$}, $K \gg N$
 \end{alertblock}
 \end{frame}
 
@@ -98,17 +123,16 @@ Développer un dictionnaire \alert{appris} et \alert{rapide} adaptée aux grands
 
 \subsection{Modèle d'arbre de convolutions}
 
-
 \begin{frame}{Le modèle d'arbres de convolutions}
+On structure le dictionnaire par un arbre de convolutions de noyaux $\h^e$ parcimonieux :
 \begin{figure}\centering
-\makebox[\linewidth]{\includegraphics[width=1.1\linewidth]{figures/1-intro-modele/tree.pdf}}
+\makebox[\linewidth]{\includegraphics[width=0.8\linewidth]{figures/1-intro-modele/tree.pdf}}
 \end{figure}
-Ainsi, le produit $\D\x$ est réduit à
-\begin{equation} 
+$\D\x$ est réduit à une complexité en \alert{$O(NQ)$} ($Q \ll N$) 
+\begin{equation}
 \D \x = \Beq{\sum_{l \in ~\text{Feuilles}}} \x^{\Beq{l}} * \underbrace{\h^{\Beq{l}}* \dots* \h^{r}}_{\textrm{de la racine à la feuille}}
 \end{equation}
-soit une complexité en \alert{$O(NQ)$} au lieu de $O(N^2)$ ($Q \ll N$) \\
-{\small Q est le nombre total d'éléments des supports $\s^e$}
+{\small (Q est le nombre total d'éléments des supports des noyaux)}
 \end{frame}
  
 
