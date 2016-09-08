@@ -29,7 +29,7 @@
 \begin{frame}{La représentation parcimonieuse}
 Représenter parcimonieusement = trouver une représentation d'une image avec un maximum de \alert{coefficients à zéro}
 \begin{figure}\centering
-\makebox[\linewidth]{\includegraphics[width=0.8\linewidth]{figures/0-intro-parcimonie/representation-parcimonieuse.pdf}}
+\makebox[\linewidth]{\includegraphics[width=1\linewidth]{figures/0-intro-parcimonie/representation-parcimonieuse.pdf}}
 \end{figure}
 \end{frame}
 
@@ -48,11 +48,7 @@ Représenter parcimonieusement = trouver une représentation d'une image avec un
 
 \subsection{Les dictionnaires pour la parcimonie}
 \begin{frame}{Les dictionnaires pour la parcimonie}
-\vskip-3em
-\begin{figure}\centering
-\makebox[\linewidth]{\includegraphics[width=1\linewidth]{figures/1-intro-modele/sparsity-matrix.pdf}}
-\end{figure}
-\vskip-1.5em
+Deux grands types de dictionnaires :
 \begin{columns}[t]
 \begin{column}{0.49\textwidth}
 	\begin{block}{}
@@ -74,8 +70,8 @@ Représenter parcimonieusement = trouver une représentation d'une image avec un
 	\end{itemize}
 	\end{block}
 	\begin{tightcenter}
-		$\uparrow$\\
-		Notre objet d'étude
+		\alert{$\uparrow$}\\
+		\textbf{Notre objet d'étude}
 	\end{tightcenter}
 \end{column}
 \end{columns}
@@ -84,11 +80,15 @@ Représenter parcimonieusement = trouver une représentation d'une image avec un
 \end{frame}
 
 \begin{frame}{Problème du coût de $\D\x$}
-Problème d'apprentissage de dictionnaire \eqref{eq_dl} pour apprendre un dictionnaire parcimonieux :
-\begin{align} 
-\underset{\D,\x}{\min}~ & \| \x \|_1 + \lambda \| \alert{\D\x}-\y \|^2_2 \tag{$DL$}\label{eq_dl} \\
+\vskip-3.5em
+\begin{figure}\centering
+\makebox[\linewidth]{\includegraphics[width=1\linewidth]{figures/1-intro-modele/sparsity-matrix.pdf}}
+\end{figure}
+\vskip-0.5em
+\textbf{Relaxation :} problème d'apprentissage de dictionnaire\eqref{eq_dl}
+\begin{align}
+\underset{\D,\x}{\min}~ & \| \x \|_1 + \lambda \| \alert{\D\x}-\y \|^2_2 \tag{$DL$}\label{eq_dl}
 \end{align}
- avec $\y \in \R^N$ l'image sur laquelle on apprend, $\x \in \R^{K}$ le code, $\D$ la matrice $K \times N$.
 
 \begin{alertblock}{}
 Problème : Coût élevé de \alert{$\D\x$} qui est en \alert{$O(KN)$}, $K \gg N$
@@ -285,7 +285,7 @@ Hyper-paramètre \alert{$\alpha$} à déterminer ?
 
 \begin{frame}{À priori $f$}
 \begin{figure}\centering
-    \makebox[\linewidth]{\includegraphics[width=0.8\linewidth]{figures/3-learn-tree-scattered/unscattered.pdf}}
+    \makebox[\linewidth]{\includegraphics[width=1\linewidth]{figures/3-learn-tree-scattered/unscattered.pdf}}
 \end{figure}
 \end{frame}
 
